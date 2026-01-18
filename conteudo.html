@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoe - Conteúdo</title>
+    
+    <meta name="theme-color" content="#4E6813">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192x192.png">
+    
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-image: url(assets/images/fundoEscola.jpg);
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+        .conteudo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+        }
+        @media (max-width: 1024px) {
+            .conteudo-container {
+                grid-template-columns: 1fr;
+                padding: 20px 16px;
+            }
+        }
+        .main-content {
+            min-width: 0;
+        }
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 20px;
+            background: #000;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        .aula-info {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+        .aula-info h1 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: white;
+            letter-spacing: 0.5px;
+        }
+        .aula-texto {
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.05rem;
+        }
+        .sidebar-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .card-aula {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .card-aula h3 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .anotacoes-area {
+            width: 100%;
+            min-height: 180px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            font-family: inherit;
+            font-size: 0.95rem;
+            resize: vertical;
+            margin-bottom: 12px;
+            transition: var(--transition);
+        }
+        .anotacoes-area:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            background: rgba(255, 255, 255, 0.06);
+        }
+        .btn-concluir {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+        }
+        .btn-concluir:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        .btn-concluir.concluida {
+            background: #348941;
+            border-color: #4ade80;
+            box-shadow: 0 5px 15px rgba(52, 137, 65, 0.4);
+        }
+        .material-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            transition: all 0.2s;
+        }
+        .material-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(5px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        .material-item i {
+            color: var(--color-primary);
+            font-size: 1.1rem;
+        }
+        .navegacao-aulas {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 20px;
+        }
+        .btn-nav {
+            flex: 1;
+            padding: 15px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 700;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+        }
+        .btn-nav:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        .btn-nav:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-3px);
+        }
+        .save-status {
+            font-size: 0.75rem;
+            color: #4ade80;
+            display: none;
+            font-weight: 700;
+        }
+        #conteudo-render{
+            padding-top: 100px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a id="link-voltar" href="#" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+        <img src="assets/images/zoe-logo.svg" alt="Zoe" class="nav-logo" style="height: 35px;">
+        <div style="width: 40px;"></div>
+    </header>
+
+    <main class="conteudo-container">
+        <div class="main-content">
+            <div id="conteudo-render">
+                <div style="text-align: center; padding: 50px;">
+                    <i class="fas fa-spinner fa-spin fa-2x"></i>
+                </div>
+            </div>
+            
+            <div class="navegacao-aulas" id="navegacao-container" style="display: none;">
+                <button id="btn-prev" class="btn-nav"><i class="fas fa-chevron-left"></i> Anterior</button>
+                <button id="btn-next" class="btn-nav">Próxima <i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+
+        <div class="sidebar-content">
+            <div class="card-aula">
+                <h3>Progresso</h3>
+                <button id="btn-concluir" class="btn-concluir">
+                    <i class="far fa-circle"></i> Marcar como concluída
+                </button>
+            </div>
+
+            <div class="card-aula" id="card-materiais" style="display: none;">
+                <h3>Materiais de Apoio</h3>
+                <div id="materiais-list"></div>
+            </div>
+
+            <div class="card-aula">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3 style="margin: 0;">Minhas Anotações</h3>
+                    <span id="save-status" class="save-status">Salvo!</span>
+                </div>
+                <textarea id="anotacoes" class="anotacoes-area" placeholder="Escreva aqui suas reflexões sobre a aula..."></textarea>
+                <p style="font-size: 0.75rem; color: #999;">Suas anotações são salvas automaticamente.</p>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { auth, onAuthStateChanged, db, doc, getDoc } from './js/firebase-init.js';
+        import { salvarProgresso, isAulaConcluida } from './js/progresso.js';
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) window.location.href = 'login.html';
+        });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const cursoId = urlParams.get('cursoId');
+        const moduloId = urlParams.get('moduloId');
+        let aulaIndex = parseInt(urlParams.get('aulaIndex') || '0');
+
+        document.getElementById('link-voltar').href = `modulos.html?id=${cursoId}`;
+
+        async function carregarConteudoLocal() {
+            try {
+                console.log(`📂 Carregando catálogo para localizar curso ${cursoId}...`);
+                const response = await fetch('data/cursos.json');
+                if (!response.ok) throw new Error("Arquivo data/cursos.json não encontrado");
+                
+                const data = await response.json();
+                const itemCatalogo = data.catalogo.find(c => c.id === cursoId);
+
+                if (!itemCatalogo) {
+                    console.error("❌ Curso não encontrado no catálogo");
+                    window.location.href = 'escola.html';
+                    return;
+                }
+
+                console.log(`📂 Carregando dados específicos do curso: ${itemCatalogo.dataFile}`);
+                const resCurso = await fetch(itemCatalogo.dataFile);
+                const curso = await resCurso.json();
+                const modulo = curso?.modulos.find(m => m.id === moduloId);
+                const aula = modulo?.conteudos[aulaIndex];
+
+                if (!aula) {
+                    document.getElementById('conteudo-render').innerHTML = '<p style="text-align: center; padding: 50px;">Conteúdo não encontrado.</p>';
+                    return;
+                }
+
+                // Renderizar Vídeo e Texto
+                const renderContainer = document.getElementById('conteudo-render');
+                renderContainer.innerHTML = `
+                    <div class="video-wrapper">
+                        <iframe src="${aula.videoUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="aula-info">
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 5px;">${modulo.titulo}</p>
+                        <h1>${aula.titulo}</h1>
+                        <div class="aula-texto">
+                            ${aula.texto ? aula.texto.replace(/\n/g, '<br>') : 'Sem descrição disponível.'}
+                        </div>
+                    </div>
+                `;
+
+                // Configurar Botão Concluir
+                const btnConcluir = document.getElementById('btn-concluir');
+                const atualizarBotaoConcluir = () => {
+                    const concluida = isAulaConcluida(cursoId, moduloId, aula.id);
+                    if (concluida) {
+                        btnConcluir.classList.add('concluida');
+                        btnConcluir.innerHTML = '<i class="fas fa-check-circle"></i> Aula Concluída';
+                    } else {
+                        btnConcluir.classList.remove('concluida');
+                        btnConcluir.innerHTML = '<i class="far fa-circle"></i> Marcar como concluída';
+                    }
+                };
+                atualizarBotaoConcluir();
+
+                btnConcluir.onclick = () => {
+                    const atualmenteConcluida = isAulaConcluida(cursoId, moduloId, aula.id);
+                    salvarProgresso(cursoId, moduloId, aula.id, !atualmenteConcluida);
+                    atualizarBotaoConcluir();
+                };
+
+                // Renderizar Materiais de Apoio
+                if (aula.materiais && aula.materiais.length > 0) {
+                    document.getElementById('card-materiais').style.display = 'block';
+                    const materiaisList = document.getElementById('materiais-list');
+                    materiaisList.innerHTML = '';
+                    aula.materiais.forEach(mat => {
+                        const a = document.createElement('a');
+                        a.href = mat.url;
+                        a.className = 'material-item';
+                        a.target = '_blank';
+                        a.innerHTML = `<i class="fas fa-file-pdf"></i> ${mat.titulo}`;
+                        materiaisList.appendChild(a);
+                    });
+                }
+
+                // Navegação entre aulas
+                const navContainer = document.getElementById('navegacao-container');
+                navContainer.style.display = 'flex';
+                
+                const btnPrev = document.getElementById('btn-prev');
+                const btnNext = document.getElementById('btn-next');
+
+                btnPrev.disabled = aulaIndex === 0;
+                btnNext.disabled = aulaIndex >= modulo.conteudos.length - 1;
+
+                btnPrev.onclick = () => {
+                    window.location.href = `conteudo.html?cursoId=${cursoId}&moduloId=${moduloId}&aulaIndex=${aulaIndex - 1}`;
+                };
+                btnNext.onclick = () => {
+                    window.location.href = `conteudo.html?cursoId=${cursoId}&moduloId=${moduloId}&aulaIndex=${aulaIndex + 1}`;
+                };
+
+            } catch (error) {
+                console.error('❌ Erro ao carregar conteúdo local:', error);
+                document.getElementById('conteudo-render').innerHTML = '<p style="text-align: center; padding: 50px;">Erro ao carregar conteúdo.</p>';
+            }
+        }
+
+        carregarConteudoLocal();
+
+        // ✅ Lógica de Anotações (Salva no LocalStorage por aula)
+        const anotacoesTextarea = document.getElementById('anotacoes');
+        const saveStatus = document.getElementById('save-status');
+        const anotacoesKey = `anotacoes_${cursoId}_${moduloId}_${aulaIndex}`;
+
+        // Carregar anotação salva
+        const salva = localStorage.getItem(anotacoesKey);
+        if (salva) anotacoesTextarea.value = salva;
+
+        // Salvar automaticamente ao digitar (com debounce)
+        let timeout;
+        anotacoesTextarea.addEventListener('input', () => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                localStorage.setItem(anotacoesKey, anotacoesTextarea.value);
+                saveStatus.style.display = 'inline';
+                setTimeout(() => {
+                    saveStatus.style.display = 'none';
+                }, 2000);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

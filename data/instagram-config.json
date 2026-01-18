@@ -1,0 +1,12 @@
+{
+  "instagram_handle": "zoemaringa",
+  "instagram_url": "https://www.instagram.com/zoemaringa/",
+  "api_type": "placeholder",
+  "description": "Galeria dinâmica do Instagram da Zoe Maringá. Para integração com API do Instagram, será necessário gerar um token de acesso no Facebook Developers.",
+  "setup_instructions": {
+    "step1": "Acesse https://developers.facebook.com/",
+    "step2": "Crie um App e configure o Instagram Basic Display",
+    "step3": "Gere um Token de Acesso com permissão 'instagram_basic'",
+    "step4": "Substitua o token no arquivo js/instagram-loader.js"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "catalogo": [
+    {
+      "id": "cristo-revelado",
+      "titulo": "Cristo Revelado",
+      "descricao": "Do Conhecimento à Missão: Aprofunde-se na identidade em Cristo e no propósito sacerdotal.",
+      "imagem": "assets/cursos/cristo.jpg",
+      "dataFile": "data/cursos_db/cristo-revelado.json"
+    },
+    {
+      "id": "escola-discipulo",
+      "titulo": "Escola de Discípulos",
+      "descricao": "Fundamentos da fé cristã e caminhada com Cristo.",
+      "imagem": "assets/cursos/escola-discipulo.png",
+      "dataFile": "data/cursos_db/escola-discipulo.json"
+    },
+    {
+      "id": "apocalipse-revelado",
+      "titulo": "Apocalipse Revelado",
+      "descricao": "Um estudo profundo sobre as profecias do fim dos tempos.",
+      "imagem": "assets/cursos/apocalipse-revelado.jpg",
+      "dataFile": "data/cursos_db/apocalipse-revelado.json"
+    }
+    
+  ]
+}

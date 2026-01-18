@@ -1,0 +1,116 @@
+{
+  "cursoId": "cristo-revelado",
+  "titulo": "Avaliação Final: Cristo Revelado",
+  "questoes": [
+    {
+      "id": 1,
+      "pergunta": "Com base em João 1:1-3 e Hebreus 1:1-4, como Cristo é apresentado na Aula 1?",
+      "opcoes": [
+        "Um profeta enviado por Deus.",
+        "Um anjo elevado à condição divina.",
+        "Deus encarnado, eterno, criador e revelador do Pai.",
+        "Um mestre espiritual com acesso especial a Deus."
+      ],
+      "correta": 2
+    },
+    {
+      "id": 2,
+      "pergunta": "Segundo a Aula 2, qual é a principal diferença entre “saber sobre Cristo” e “conhecê-lo pessoalmente”?",
+      "opcoes": [
+        "Saber sobre Cristo exige estudo teológico; conhecê-lo exige experiência emocional.",
+        "O conhecimento pessoal de Cristo é experimental, transformador e gera contentamento nEle.",
+        "Conhecê-lo pessoalmente é apenas para pastores e líderes.",
+        "Não há diferença; são a mesma coisa."
+      ],
+      "correta": 1
+    },
+    {
+      "id": 3,
+      "pergunta": "Em Efésios 2:4-6, quais são as três fases do homem apresentadas na Aula 3?",
+      "opcoes": [
+        "Caído, justificado, sacerdote.",
+        "Pecador, salvo, adorador.",
+        "Ímpio, convertido, missionário.",
+        "Perdido, encontrado, servo."
+      ],
+      "correta": 0
+    },
+    {
+      "id": 4,
+      "pergunta": "Qual é o chamado original do homem, conforme Gênesis 1:26-27, discutido na Aula 3?",
+      "opcoes": [
+        "Ser um trabalhador na terra.",
+        "Ser imagem e semelhança de Deus, representante do eterno no temporal.",
+        "Adorar a Deus continuamente.",
+        "Construir uma civilização avançada."
+      ],
+      "correta": 1
+    },
+    {
+      "id": 5,
+      "pergunta": "Na Aula 4, como Jesus responde ao medo dos discípulos durante a tempestade (Marcos 4:40)?",
+      "opcoes": [
+        "Ele os consola dizendo que o medo é natural.",
+        "Ele ignora o medo e acalma a tempestade sem comentar.",
+        "Ele questiona: “Por que vocês estão com tanto medo? Ainda não têm fé?”",
+        "Ele os repreende por não saberem nadar."
+      ],
+      "correta": 2
+    },
+    {
+      "id": 6,
+      "pergunta": "Segundo Mateus 6:33, qual deve ser a prioridade do discípulo de Cristo?",
+      "opcoes": [
+        "Resolver seus problemas financeiros.",
+        "Garantir sua segurança emocional.",
+        "Buscar primeiro o Reino de Deus e Sua justiça.",
+        "Evitar situações de risco."
+      ],
+      "correta": 2
+    },
+    {
+      "id": 7,
+      "pergunta": "Na Aula 5, como a salvação é definida em relação ao propósito eterno de Deus?",
+      "opcoes": [
+        "Como um refúgio contra os problemas da vida.",
+        "Como um realinhamento à vontade de Deus, que é a filiação e a reconciliação.",
+        "Como uma garantia de prosperidade e saúde.",
+        "Como uma recompensa por boas obras."
+      ],
+      "correta": 1
+    },
+    {
+      "id": 8,
+      "pergunta": "Qual é o ministério conferido aos que são salvos, conforme 2 Coríntios 5:18-20?",
+      "opcoes": [
+        "Ministério da reconciliação.",
+        "Ministério do louvor e adoração.",
+        "Ministério da pregação profética.",
+        "Ministério do cuidado pastoral."
+      ],
+      "correta": 0
+    },
+    {
+      "id": 9,
+      "pergunta": "O que a criação aguarda, segundo Romanos 8:19, conforme abordado na Aula 3?",
+      "opcoes": [
+        "A volta de Cristo.",
+        "A manifestação dos filhos de Deus.",
+        "O fim do sofrimento.",
+        "O estabelecimento do reino milenar."
+      ],
+      "correta": 1
+    },
+    {
+      "id": 10,
+      "pergunta": "Segundo a visão apresentada ao longo do curso, qual é a relação correta entre a salvação e o propósito do crente?",
+      "opcoes": [
+        "A salvação é um fim em si mesma, garantindo ao crente um lugar no céu após a morte.",
+        "A salvação é um refúgio temporário contra os problemas desta vida, sem implicações práticas atuais.",
+        "A salvação realinha o crente ao propósito eterno de Deus, capacitando-o para viver como filho e embaixador da reconciliação.",
+        "A salvação garante prosperidade e saúde ao crente, como recompensa por sua fé."
+      ],
+      "correta": 2
+    }
+  ]
+}

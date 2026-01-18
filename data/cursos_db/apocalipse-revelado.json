@@ -1,0 +1,22 @@
+{
+  "id": "apocalipse-revelado",
+  "titulo": "Apocalipse Revelado",
+  "descricao": "Um estudo profundo sobre as profecias do fim dos tempos.",
+  "imagem": "assets/cursos/apocalipse-revelado.jpg",
+  "modulos": [
+    {
+      "id": "mod-1",
+      "titulo": "Módulo 1: As Sete Igrejas",
+      "descricao": "As cartas de Jesus às igrejas da Ásia Menor.",
+      "conteudos": [
+        {
+          "id": "cont-1-1",
+          "titulo": "Aula 1: Éfeso e o Primeiro Amor",
+          "tipo": "video",
+          "videoUrl": "https://www.youtube.com/embed/FpOqV8Cd4NY?si=ezeTpHtRPch1XXdL",
+          "texto": "O perigo de manter a doutrina mas perder a passion por Cristo."
+        }
+      ]
+    }
+  ]
+}

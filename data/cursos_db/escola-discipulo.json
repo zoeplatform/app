@@ -1,0 +1,68 @@
+{
+  "id": "escola-discipulo",
+  "titulo": "Escola de Discípulos",
+  "descricao": "Fundamentos da fé cristã e caminhada com Cristo.",
+  "imagem": "assets/cursos/escola-discipulo.png",
+  "modulos": [
+    {
+      "id": "mod-1",
+      "titulo": "Módulo 1: O Novo Nascimento",
+      "descricao": "Entendendo o que significa nascer de novo em Cristo.",
+      "conteudos": [
+        {
+          "id": "cont-1-1",
+          "titulo": "Aula 1: A Necessidade do Arrependimento",
+          "tipo": "video",
+          "videoUrl": "https://www.youtube.com/embed/FpOqV8Cd4NY?si=ezeTpHtRPch1XXdL",
+          "texto": "Nesta aula, exploramos a base do arrependimento bíblico e como ele abre as portas para uma nova vida em Deus. O arrependimento não é apenas remorso, mas uma mudança de direção.",
+          "materiais": [
+            { "titulo": "Apostila de Arrependimento (PDF)", "url": "#" }
+          ]
+        },
+        {
+          "id": "cont-1-2",
+          "titulo": "Aula 2: A Graça Redentora",
+          "tipo": "video",
+          "videoUrl": "https://www.youtube.com/embed/FpOqV8Cd4NY?si=ezeTpHtRPch1XXdL",
+          "texto": "A graça é o favor imerecido de Deus. Vamos entender como ela opera em nossa salvação e nos sustenta diariamente.",
+          "materiais": [
+            { "titulo": "Guia de Estudo: Graça (PDF)", "url": "#" }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "pergunta": "O que significa arrependimento no contexto bíblico?",
+          "opcoes": ["Apenas sentir remorso", "Uma mudança de direção e mente", "Fazer boas obras para compensar o erro", "Esquecer o passado"],
+          "correta": 1
+        },
+        {
+          "pergunta": "A graça de Deus é baseada em nossos méritos?",
+          "opcoes": ["Sim, quanto mais fazemos, mais graça recebemos", "Não, é um favor imerecido", "Depende da situação", "Apenas para pessoas perfeitas"],
+          "correta": 1
+        }
+      ]
+    },
+    {
+      "id": "mod-2",
+      "titulo": "Módulo 2: Vida de Oração",
+      "descricao": "Desenvolvendo intimidade com o Pai através da oração.",
+      "conteudos": [
+        {
+          "id": "cont-2-1",
+          "titulo": "Aula 1: O Padrão do Pai Nosso",
+          "tipo": "video",
+          "videoUrl": "https://www.youtube.com/embed/FpOqV8Cd4NY?si=ezeTpHtRPch1XXdL",
+          "texto": "Jesus nos ensinou como orar. Vamos analisar cada parte da oração do Pai Nosso e como aplicá-la hoje."
+        }
+      ],
+      "quiz": [
+        {
+          "pergunta": "Qual o objetivo principal da oração do Pai Nosso?",
+          "opcoes": ["Ser uma reza repetitiva", "Servir como um modelo de prioridades na oração", "Apenas para ser dita na igreja", "Para pedir apenas coisas materiais"],
+          "correta": 1
+        }
+      ]
+    }
+  ]
+}
