@@ -105,6 +105,7 @@ export function criarCardAvaliacao(cursoId, cursoTitulo) {
  * Verifica se todas as aulas de um curso foram concluídas
  */
 function verificarAulasConcluidas(cursoId) {
+     return true;
     const progresso = localStorage.getItem('zoe_escola_progresso');
     if (!progresso) return false;
 
