@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escola Zoe</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Plataforma de discipulado, escola bíblica e conteúdo cristão do Ministério Zoe Maringá">
+    <meta name="theme-color" content="#DCFF00">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Zoe">
+    
+    <!-- PWA Icons -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/favicon.svg">
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/icons/icon-512x512.png">
+    <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+    
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+
+        .escolaZoe{
+            background-image: url(assets/images/fundoEscola.jpg);
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        .progress-bar-course {
+            height: 6px;
+            background: #eee;
+            width: 100%;
+            margin-top: 15px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .progress-bar-course-fill {
+            height: 100%;
+            background: var(--color-primary);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--color-text-secondary);
+            margin-top: 5px;
+            font-weight: 600;
+        }
+        .escola-header p {
+            color: white;
+        }
+
+        /* Botão de Voltar */
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: var(--transition);
+            z-index: 1001;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-3px);
+        }
+
+        /* Aprimoramento dos Cards com Glassmorfismo */
+        .curso-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: auto; /* Altura automática para acomodar conteúdo */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .curso-card img {
+            height: 200px; /* Altura fixa para a imagem */
+            object-fit: cover;
+        }
+
+        .curso-info {
+            position: relative; /* Mudado de absolute para relative */
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .curso-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: var(--color-primary);
+        }
+
+        .curso-info p {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Ajuste na barra de progresso */
+        .progress-bar-course {
+            background: rgba(255, 255, 255, 0.1);
+            height: 8px;
+            border-radius: 4px;
+        }
+
+        .progress-bar-course-fill {
+            background: linear-gradient(90deg, #348941, #4ade80);
+            box-shadow: 0 0 10px rgba(52, 137, 65, 0.5);
+        }
+
+        .btn-primary {
+            background: #348941;
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .btn-primary:hover {
+            background: #3db352;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 137, 65, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu Lateral Removido (Substituído por Seta de Voltar) -->
+
+    <header>
+        <a href="home.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+        <div style="width: 24px;"></div>
+    </header>
+
+    <main class="escolaZoe">
+        <section class="escola-header">
+            <h1>Escola Zoe</h1>
+            <p>Cursos de Discipulado e Crescimento Espiritual</p>
+        </section>
+
+        <div class="cursos-container" id="cursos-container">
+            <div style="text-align: center; padding: 40px; color: var(--color-text-secondary);">
+                <i class="fas fa-spinner fa-spin"></i> Carregando cursos...
+            </div>
+        </div>
+    </main>
+
+    <footer style="padding: 40px 24px; text-align: center; color: var(--color-text-secondary); font-size: 0.8rem;">
+        <p>&copy; 2026 Ministério Zoe Maringá</p>
+    </footer>
+
+	    <script type="module">
+	        import { auth, onAuthStateChanged, signOut, db, doc, getDoc } from './js/firebase-init.js';
+	        import { calcularProgressoCurso } from './js/progresso.js';
+
+        // ✅ Lógica de Autenticação e Permissões (Igual à Home)
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = 'login.html';
+            } else {
+	                try {
+	                    const userDoc = await getDoc(doc(db, 'usuarios', user.uid));
+	                    const adminItem = document.getElementById('menu-admin-item');
+	                    if (userDoc.exists() && userDoc.data().role === 'admin' && adminItem) {
+	                        adminItem.style.display = 'block';
+	                    }
+	                } catch (e) {
+	                    console.error("Erro ao verificar admin:", e);
+	                }
+            }
+        });
+
+	        const btnLogout = document.getElementById('btn-logout');
+	        if (btnLogout) {
+	            btnLogout.addEventListener('click', async () => {
+	                await signOut(auth);
+	                window.location.href = 'login.html';
+	            });
+	        }
+
+        // ✅ CARREGAMENTO LOCAL DE CURSOS (Ignora Firebase para Cursos)
+        async function carregarCursosLocais() {
+            const container = document.getElementById('cursos-container');
+            try {
+                console.log("📂 Carregando cursos do arquivo local...");
+                // Busca o arquivo JSON na pasta data
+                const response = await fetch('data/cursos.json');
+                if (!response.ok) throw new Error("Arquivo data/cursos.json não encontrado");
+                
+                const data = await response.json();
+                const catalogo = data.catalogo;
+
+                container.innerHTML = '';
+                
+                if (!catalogo || catalogo.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; padding: 20px;">Nenhum curso cadastrado localmente.</p>';
+                    return;
+                }
+
+                // Carregar detalhes de cada curso para calcular progresso
+                for (const item of catalogo) {
+                    try {
+                        const resCurso = await fetch(item.dataFile);
+                        const curso = await resCurso.json();
+                        const percent = calcularProgressoCurso(curso);
+                    const card = document.createElement('div');
+                    card.className = 'curso-card';
+                        card.innerHTML = `
+                            <img src="${item.imagem}" alt="${item.titulo}" onerror="this.src='assets/images/escolazoe.png'">
+                            <div class="curso-info">
+                                <h3>${item.titulo}</h3>
+                                <p>${item.descricao}</p>
+                                <div class="progress-bar-course">
+                                    <div class="progress-bar-course-fill" style="width: ${percent}%"></div>
+                                </div>
+                                <div class="progress-info">
+                                    <span>Progresso</span>
+                                    <span>${percent}%</span>
+                                </div>
+                                <button class="btn-primary" style="margin-top: 15px; width: 100%;" 
+                                    onclick="window.location.href='modulos.html?id=${item.id}'">
+                                    Continuar
+                                </button>
+                            </div>
+                        `;
+                        container.appendChild(card);
+                    } catch (err) {
+                        console.error(`Erro ao carregar detalhes do curso ${item.id}:`, err);
+                    }
+                }
+
+            } catch (error) {
+                console.error("❌ Erro ao carregar cursos locais:", error);
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 20px; color: var(--color-error);">
+                        <i class="fas fa-exclamation-circle"></i><br>
+                        Erro ao carregar cursos locais.<br>
+                        <small>Verifique se o arquivo <b>data/cursos.json</b> existe.</small>
+                    </div>`;
+            }
+        }
+
+	        // Inicializar componentes
+	        carregarCursosLocais();
+	    </script>
+</body>
+</html>

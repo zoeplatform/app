@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoe - Home</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Plataforma de discipulado, escola bíblica e conteúdo cristão do Ministério Zoe Maringá">
+    <meta name="theme-color" content="#4E6813">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Zoe">
+    
+    <!-- PWA Icons -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/favicon.svg">
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/icons/icon-512x512.png">
+    <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+    
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+     <img class="homeback" src="assets/images/fundoHome.png" alt="">
+    <!-- Menu Lateral -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>Menu</h3>
+            <button class="sidebar-close"><i class="fas fa-times"></i></button>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="home.html" data-page="home"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="escola.html" data-page="escola"><i class="fas fa-book"></i> Escola Zoe</a></li>
+            <li><a href="reino-kids.html" data-page="reino-kids"><i class="fas fa-child"></i> Reino Kids</a></li>
+            <li><a href="#" data-page="cultos"><i class="fas fa-music"></i> Cultos</a></li>
+            <li><a href="#" data-page="celulas"><i class="fas fa-users"></i> Células</a></li>
+            <!-- ✅ O item de administração só aparecerá se o usuário for admin -->
+            <li id="menu-admin-item" style="display: none;"><a href="admin.html" data-page="admin"><i class="fas fa-shield-alt"></i> Administração</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <button id="btn-logout"><i class="fas fa-sign-out-alt"></i> Sair</button>
+        </div>
+    </aside>
+
+    <div class="overlay" id="overlay"></div>
+
+    <header>
+        <button class="menu-btn"><i class="fas fa-bars"></i></button>
+        <img src="assets/images/zoe-logo.svg" alt="Zoe" class="nav-logo">
+        <div style="width: 24px;"></div>
+    </header>
+
+    <main>
+     <h2 class="hero-title">Comunidade Cristã</h2>
+<p class="hero-subtitle">Levando Vida.</p>
+
+        <!-- Bloco A: Cards Verticais -->
+        <section style="padding: 24px 0;">
+            
+            <div class="cards-container">
+                <div class="card-vertical" onclick="window.location.href='escola.html'">
+                    <img src="assets/images/escolazoe.png" alt="Escola">
+                    <div class="card-info">
+                        <h3>Escola Zoe</h3>
+                        <p>Cursos e Discipulado</p>
+                    </div>
+                </div>
+                <div class="card-vertical" onclick="window.location.href='reino-kids.html'">
+                    <img src="assets/images/reinoKids.png" alt="Reino Kids">
+                    <div class="card-info">
+                        <h3>Reino Kids</h3>
+                        <p>Discipulado Infantil</p>
+                    </div>
+                </div>
+                <div class="card-vertical">
+                    <img src="assets/images/cultos.png" alt="Cultos">
+                    <div class="card-info">
+                        <h3>Cultos</h3>
+                        <p>Assista ao vivo</p>
+                    </div>
+                </div>
+                <div class="card-vertical">
+                    <img src="assets/images/celula.png" alt="Células">
+                    <div class="card-info">
+                        <h3>Células</h3>
+                        <p>Vida em comunidade</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bloco B: Mural de Avisos (Dinâmico via Firestore) -->
+        <section class="mural-section">
+            <h2 class="section-title" style="padding: 0; margin-bottom: 20px;">Mural de Avisos</h2>
+            <div id="mural-container">
+                <div style="text-align: center; padding: 20px; color:white;">
+                    <i class="fas fa-spinner fa-spin"></i> Carregando avisos...
+                </div>
+            </div>
+        </section>
+
+        <!-- Bloco C: Localização -->
+        <section class="loc-section">
+            <h2 class="section-title" style="padding: 0;">Venha nos Visitar</h2>
+            <div class="loc-card">
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3661.2345678901234!2d-51.4189!3d-23.4245!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94f4e5c5c5c5c5c5%3A0x0!2sAvenida%20Jos%C3%A9%20Alves%20Nendo%2C%20911%20-%20Mar%C3%ADngá%2C%20PR!5e0!3m2!1spt-BR!2sbr!4v1234567890" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                <div class="loc-info">
+                    <h4>Ministério Zoe Maringá</h4>
+                    <p>Avenida José Alves Nendo, 911<br>Maringá - PR</p>
+                    <div class="btn-group">
+                        <button class="btn-action btn-rota" onclick="abrirRota()">
+                            <i class="fas fa-route"></i> Rota
+                        </button>
+                        <button class="btn-action btn-whatsapp" onclick="abrirWhatsApp()">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bloco D: Galeria Instagram -->
+        <section class="galeria-section">
+            <h2 class="section-title" style="padding: 0;">Highlights dos Cultos</h2>
+            <div class="galeria-grid" id="galeria-container">
+                <div class="galeria-item"><img src="assets/destaques/foto1.jpg" alt="1"></div>
+                <div class="galeria-item"><img src="assets/destaques/foto2.jpg" alt="2"></div>
+                <div class="galeria-item"><img src="assets/destaques/foto3.jpg" alt="3"></div>
+                <div class="galeria-item"><img src="assets/destaques/foto4.jpg" alt="4"></div>
+            </div>
+            <button class="btn-instagram" onclick="window.open('https://www.instagram.com/zoemaringa/', '_blank')">
+                <i class="fab fa-instagram"></i> Ver no Instagram
+            </button>
+        </section>
+    </main>
+
+    <footer style="padding: 40px 24px; text-align: center; color: var(--color-text-secondary); font-size: 0.8rem;">
+        <p>&copy; 2026 Ministério Zoe Maringá</p>
+    </footer>
+
+    <script type="module">
+        import { auth, onAuthStateChanged, signOut, db, doc, getDoc } from './js/firebase-init.js';
+        import { inicializarMenu, setMenuAtivo } from './js/menu.js';
+        import { inicializarMural } from './js/mural-loader.js';
+
+        // ✅ Lógica de Autenticação e Permissões
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                console.log('🚪 Usuário não logado, redirecionando...');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            console.log('👤 Usuário logado:', user.email);
+
+            try {
+                // Buscar permissões no Firestore
+                const userDocRef = doc(db, 'usuarios', user.uid);
+                const userDoc = await getDoc(userDocRef);
+
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    console.log('📊 Role detectada:', userData.role);
+
+                    if (userData.role === 'admin') {
+                        // ✅ Exibir menu administrativo apenas para admin
+                        const adminMenuItem = document.getElementById('menu-admin-item');
+                        if (adminMenuItem) adminMenuItem.style.display = 'block';
+                        console.log('🔓 Acesso administrativo liberado no menu.');
+                    }
+                } else {
+                    console.warn('⚠️ Documento do usuário não encontrado no Firestore.');
+                }
+            } catch (error) {
+                console.error('❌ Erro ao verificar permissões:', error);
+            }
+        });
+
+        document.getElementById('btn-logout').addEventListener('click', async () => {
+            await signOut(auth);
+            window.location.href = 'login.html';
+        });
+
+        window.abrirRota = function() {
+            const endereco = "Avenida José Alves Nendo, 911, Maringá, PR";
+            const url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(endereco)}`;
+            window.open(url, '_blank');
+        };
+
+        window.abrirWhatsApp = function() {
+            const numero = "5544999999999";
+            const mensagem = "Olá! Gostaria de mais informações sobre o Ministério Zoe.";
+            const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
+            window.open(url, '_blank');
+        };
+
+        // Inicializar componentes
+        inicializarMenu();
+        setMenuAtivo('home');
+        inicializarMural('mural-container');
+    </script>
+
+    <script>
+  const header = document.querySelector("header");
+
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 20) {
+      header.classList.add("scrolled");
+    } else {
+      header.classList.remove("scrolled");
+    }
+  });
+</script>
+
+</body>
+</html>

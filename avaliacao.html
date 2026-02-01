@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoe - Avaliação Final</title>
+    
+    <meta name="theme-color" content="#4E6813">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192x192.png">
+    
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-image: url(./assets/images/fundoavaliacao.jpg);
+           background-size: cover;
+           background-repeat: no-repeat;
+            min-height: 100vh;
+        }
+
+        .avaliacao-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        .avaliacao-header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+            margin-top: 10px;
+        }
+
+        .avaliacao-header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .avaliacao-header p {
+            font-size: 1.05rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(135deg, #fc3b1d 0%, #e1c318 100%);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .question-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .question-number {
+            display: inline-block;
+          background: linear-gradient(135deg, #fc3b1d 0%, #e1c318 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option-wrapper {
+            position: relative;
+        }
+
+        .option-input {
+            display: none;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 18px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            position: relative;
+        }
+
+        .option-label:hover {
+            border-color: #667eea;
+            background: #f8f7ff;
+            transform: translateX(5px);
+        }
+
+        .option-input:checked + .option-label {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #4E6813 0%, #A3B18A 100%);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .checkbox-custom {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #d1d5db;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .option-input:checked + .option-label .checkbox-custom {
+           background: linear-gradient(135deg, #4E6813 0%, #A3B18A 100%);
+            border-color: #667eea;
+            color: white;
+        }
+
+        .option-text {
+            font-size: 1rem;
+            color: #374151;
+            line-height: 1.5;
+            flex: 1;
+        }
+
+        .option-input:checked + .option-label .option-text {
+            color: #1f2937;
+            font-weight: 600;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .btn-nav-avaliacao {
+            flex: 1;
+            padding: 16px 24px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            backdrop-filter: blur(10px);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-nav-avaliacao:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .btn-nav-avaliacao:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .btn-enviar {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            border: none;
+        }
+
+        .btn-enviar:hover:not(:disabled) {
+            background: linear-gradient(135deg, #4E6813 0%, #A3B18A 100%);
+            box-shadow: 0 10px 30px rgba(34, 197, 94, 0.4);
+        }
+
+        /* Tela de Resultados */
+        .result-screen {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .result-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 50px 40px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            margin-top: 20px;
+        }
+
+        .result-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: bounce 0.6s ease-out;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .result-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1f2937;
+            margin-bottom: 15px;
+        }
+
+        .result-score-box {
+            background: linear-gradient(135deg, #4E6813 0%, #A3B18A 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 16px;
+            margin: 30px 0;
+        }
+
+        .result-score {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .result-percentage {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .result-message {
+            font-size: 1.1rem;
+            color: #4b5563;
+            margin: 25px 0;
+            line-height: 1.6;
+        }
+
+        .result-feedback {
+            background: #f3f4f6;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 25px 0;
+            text-align: left;
+        }
+
+        .feedback-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            color: #374151;
+        }
+
+        .feedback-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .feedback-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .feedback-correct {
+            background: #d1fae5;
+            color: #047857;
+        }
+
+        .feedback-incorrect {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .badges-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 15px 25px;
+            background: #f3f4f6;
+            border-radius: 12px;
+            border: 2px solid #e5e7eb;
+        }
+
+        .badge-icon {
+            font-size: 2rem;
+        }
+
+        .badge-text {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #374151;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-action {
+            padding: 14px 28px;
+            border-radius: 12px;
+            border: 2px solid #e5e7eb;
+            background: white;
+            color: #374151;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-action:hover {
+            border-color: #667eea;
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .btn-action.primary {
+            background: linear-gradient(135deg, #4E6813 0%, #A3B18A 100%);
+            color: white;
+            border-color: transparent;
+        }
+
+        .btn-action.primary:hover {
+            color: white;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .question-container {
+            display: none;
+        }
+
+        .question-container.active {
+            display: block;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-3px);
+        }
+
+        @media (max-width: 768px) {
+            .avaliacao-container {
+                padding: 20px 16px;
+            }
+
+            .question-card {
+                padding: 25px 20px;
+            }
+
+            .question-text {
+                font-size: 1.1rem;
+            }
+
+            .result-container {
+                padding: 30px 20px;
+            }
+
+            .result-score {
+                font-size: 2.5rem;
+            }
+
+            .avaliacao-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+
+    <header>
+<a href="#escola.html" id="back-btn" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+    </header>
+
+    <main class="avaliacao-container">
+        <!-- Seção de Questões -->
+        <div id="quiz-section">
+            <div class="avaliacao-header">
+                <h1>Avaliação Final</h1>
+                <p id="curso-titulo">Cristo Revelado</p>
+                
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progress-bar" style="width: 0%;"></div>
+                </div>
+                
+                <div class="progress-info">
+                    <span id="progress-text">Questão 1 de 10</span>
+                    <span id="answered-count">0 respondidas</span>
+                </div>
+            </div>
+
+            <!-- Container de Questões -->
+            <div id="questions-wrapper"></div>
+
+            <!-- Botões de Navegação -->
+            <div class="navigation-buttons">
+                <button id="btn-anterior" class="btn-nav-avaliacao" disabled>
+                    <i class="fas fa-chevron-left"></i> Anterior
+                </button>
+                <button id="btn-proximo" class="btn-nav-avaliacao">
+                    Próxima <i class="fas fa-chevron-right"></i>
+                </button>
+                <button id="btn-enviar" class="btn-nav-avaliacao btn-enviar" style="display: none;">
+                    <i class="fas fa-check"></i> Enviar Respostas
+                </button>
+            </div>
+        </div>
+
+        <!-- Seção de Resultados -->
+        <div id="result-section" class="result-screen">
+            <div class="result-container">
+                <div class="result-icon" id="result-icon">🎉</div>
+                
+                <h1 class="result-title" id="result-title">Parabéns!</h1>
+                
+                <div class="result-score-box">
+                    <div class="result-score" id="result-score">10/10</div>
+                    <div class="result-percentage" id="result-percentage">100%</div>
+                </div>
+
+                <p class="result-message" id="result-message">
+                    Você demonstrou excelente compreensão do conteúdo!
+                </p>
+
+                <div class="badges-container" id="badges-container"></div>
+
+                <div class="result-feedback" id="result-feedback"></div>
+
+                <div class="btn-actions">
+                    <button class="btn-action primary" onclick="location.href='modulos.html?id=cristo-revelado'">
+                        <i class="fas fa-arrow-left"></i> Voltar aos Módulos
+                    </button>
+                    <button class="btn-action" onclick="location.href='escola.html'">
+                        <i class="fas fa-home"></i> Ir para Escola
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { auth, onAuthStateChanged, db, doc, getDoc } from './js/firebase-init.js';
+        import { salvarProgresso } from './js/progresso.js';
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) window.location.href = 'login.html';
+        });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const cursoId = urlParams.get('cursoId') || 'apocalipse-revelado';
+
+        let questoes = [];
+        let respostas = [];
+        let currentQuestionIndex = 0;
+        let totalQuestoes = 0;
+
+        // Configurar botão voltar
+        document.getElementById('back-btn').href = `modulos.html?id=${cursoId}`;
+
+        async function carregarAvaliacao() {
+            try {
+                console.log(`📂 Carregando avaliação do curso: ${cursoId}`);
+                
+                // Carregar o JSON completo do curso
+                const response = await fetch(`data/cursos_db/${cursoId}.json`);
+                if (!response.ok) throw new Error('Arquivo do curso não encontrado');
+                
+                const curso = await response.json();
+                
+                // Extrair avaliação do JSON do curso
+                if (!curso.avaliacao || !curso.avaliacao.questoes) {
+                    throw new Error('Avaliação não encontrada no curso');
+                }
+
+                questoes = curso.avaliacao.questoes || [];
+                document.getElementById('curso-titulo').textContent = curso.avaliacao.titulo || 'Avaliação';
+
+                if (questoes.length === 0) {
+                    throw new Error('Nenhuma questão encontrada');
+                }
+
+                totalQuestoes = questoes.length;
+                respostas = new Array(totalQuestoes).fill(null);
+
+                renderizarQuestoes();
+                renderizarQuestaoAtual();
+            } catch (error) {
+                console.error('❌ Erro ao carregar avaliação:', error);
+                alert('Erro ao carregar a avaliação. Tente novamente.');
+                window.location.href = `modulos.html?id=${cursoId}`;
+            }
+        }
+
+        function renderizarQuestoes() {
+            const wrapper = document.getElementById('questions-wrapper');
+            wrapper.innerHTML = '';
+
+            questoes.forEach((questao, index) => {
+                const container = document.createElement('div');
+                container.className = `question-container ${index === 0 ? 'active' : ''}`;
+                container.id = `question-${index}`;
+
+                container.innerHTML = `
+                    <div class="question-card">
+                        <span class="question-number">Questão ${index + 1} de ${totalQuestoes}</span>
+                        <h2 class="question-text">${questao.pergunta}</h2>
+                        
+                        <div class="options-container">
+                            ${questao.opcoes.map((opcao, optIndex) => `
+                                <div class="option-wrapper">
+                                    <input 
+                                        type="radio" 
+                                        id="option-${index}-${optIndex}" 
+                                        name="question-${index}" 
+                                        class="option-input"
+                                        value="${optIndex}"
+                                        ${respostas[index] === optIndex ? 'checked' : ''}
+                                        onchange="selecionarOpcao(${index}, ${optIndex})"
+                                    >
+                                    <label for="option-${index}-${optIndex}" class="option-label">
+                                        <div class="checkbox-custom">
+                                            <i class="fas fa-check"></i>
+                                        </div>
+                                        <span class="option-text">${opcao}</span>
+                                    </label>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+
+                wrapper.appendChild(container);
+            });
+        }
+
+        window.selecionarOpcao = (questionIndex, optionIndex) => {
+            respostas[questionIndex] = optionIndex;
+            atualizarProgresso();
+        };
+
+        function atualizarProgresso() {
+            const respondidas = respostas.filter(r => r !== null).length;
+            const percentual = (currentQuestionIndex + 1) / totalQuestoes * 100;
+
+            document.getElementById('progress-bar').style.width = percentual + '%';
+            document.getElementById('progress-text').textContent = `Questão ${currentQuestionIndex + 1} de ${totalQuestoes}`;
+            document.getElementById('answered-count').textContent = `${respondidas} respondidas`;
+
+            // Mostrar botão enviar na última questão
+            if (currentQuestionIndex === totalQuestoes - 1) {
+                document.getElementById('btn-proximo').style.display = 'none';
+                document.getElementById('btn-enviar').style.display = 'flex';
+            } else {
+                document.getElementById('btn-proximo').style.display = 'flex';
+                document.getElementById('btn-enviar').style.display = 'none';
+            }
+
+            // Habilitar/desabilitar botões
+            document.getElementById('btn-anterior').disabled = currentQuestionIndex === 0;
+            document.getElementById('btn-proximo').disabled = respostas[currentQuestionIndex] === null;
+            document.getElementById('btn-enviar').disabled = respostas.some(r => r === null);
+        }
+
+        function renderizarQuestaoAtual() {
+            document.querySelectorAll('.question-container').forEach((el, index) => {
+                el.classList.toggle('active', index === currentQuestionIndex);
+            });
+            atualizarProgresso();
+        }
+
+        document.getElementById('btn-anterior').addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderizarQuestaoAtual();
+            }
+        });
+
+        document.getElementById('btn-proximo').addEventListener('click', () => {
+            if (currentQuestionIndex < totalQuestoes - 1) {
+                currentQuestionIndex++;
+                renderizarQuestaoAtual();
+            }
+        });
+
+        document.getElementById('btn-enviar').addEventListener('click', () => {
+            if (respostas.some(r => r === null)) {
+                alert('Por favor, responda todas as questões antes de enviar.');
+                return;
+            }
+            calcularResultados();
+        });
+
+        function calcularResultados() {
+            let acertos = 0;
+            const detalhes = [];
+
+            questoes.forEach((questao, index) => {
+                const resposta = respostas[index];
+                const acertou = resposta === questao.correta;
+                
+                if (acertou) acertos++;
+
+                detalhes.push({
+                    numero: index + 1,
+                    acertou: acertou,
+                    resposta: questao.opcoes[resposta],
+                    correta: questao.opcoes[questao.correta]
+                });
+            });
+
+            exibirResultados(acertos, detalhes);
+        }
+
+        function exibirResultados(acertos, detalhes) {
+            const percentual = Math.round((acertos / totalQuestoes) * 100);
+            
+            // Determinar mensagem e ícone
+            let titulo, mensagem, icon, badges;
+            
+            if (percentual === 100) {
+                titulo = '🎉 Excelente!';
+                mensagem = 'Você demonstrou excelente compreensão do conteúdo. Parabéns por dominar completamente este curso!';
+                icon = '🏆';
+                badges = ['🥇 Perfeição', '⭐ Destaque', '🔥 Domínio Total'];
+            } else if (percentual >= 80) {
+                titulo = '👏 Muito Bem!';
+                mensagem = 'Você teve um ótimo desempenho! Continue assim e aprofunde ainda mais seu conhecimento.';
+                icon = '🎖️';
+                badges = ['🥈 Excelente', '⭐ Muito Bom'];
+            } else if (percentual >= 60) {
+                titulo = '✅ Bom Desempenho!';
+                mensagem = 'Você demonstrou bom conhecimento do conteúdo. Revise os pontos que ficaram dúvidas.';
+                icon = '📚';
+                badges = ['📖 Aprendizado'];
+            } else if (percentual >= 40) {
+                titulo = '💪 Continue Estudando!';
+                mensagem = 'Você está no caminho certo! Revise o conteúdo e tente novamente para melhorar seu desempenho.';
+                icon = '📝';
+                badges = ['🎯 Progresso'];
+            } else {
+                titulo = '🔄 Tente Novamente!';
+                mensagem = 'Recomendamos revisar o conteúdo das aulas antes de fazer uma nova tentativa.';
+                icon = '📚';
+                badges = ['💡 Aprendizado'];
+            }
+
+            // Atualizar tela de resultados
+            document.getElementById('quiz-section').style.display = 'none';
+            document.getElementById('result-section').style.display = 'block';
+            
+            document.getElementById('result-icon').textContent = icon;
+            document.getElementById('result-title').textContent = titulo;
+            document.getElementById('result-score').textContent = `${acertos}/${totalQuestoes}`;
+            document.getElementById('result-percentage').textContent = `${percentual}%`;
+            document.getElementById('result-message').textContent = mensagem;
+
+            // Adicionar badges
+            const badgesContainer = document.getElementById('badges-container');
+            badgesContainer.innerHTML = badges.map(badge => `
+                <div class="badge">
+                    <div class="badge-icon">${badge.split(' ')[0]}</div>
+                    <div class="badge-text">${badge.split(' ').slice(1).join(' ')}</div>
+                </div>
+            `).join('');
+
+            // Adicionar feedback detalhado
+            const feedbackContainer = document.getElementById('result-feedback');
+            feedbackContainer.innerHTML = `
+                <div style="margin-bottom: 15px; font-weight: 700; color: #1f2937;">Resultado Detalhado:</div>
+                ${detalhes.map(d => `
+                    <div class="feedback-item">
+                        <div class="feedback-icon ${d.acertou ? 'feedback-correct' : 'feedback-incorrect'}">
+                            ${d.acertou ? '✓' : '✗'}
+                        </div>
+                        <div>
+                            <strong>Questão ${d.numero}:</strong> 
+                            ${d.acertou ? '✓ Correto' : `✗ Sua resposta: "${d.resposta}" | Correta: "${d.correta}"`}
+                        </div>
+                    </div>
+                `).join('')}
+            `;
+
+            // Salvar progresso
+            salvarProgressoAvaliacao(cursoId, acertos, totalQuestoes, percentual);
+        }
+
+        async function salvarProgressoAvaliacao(cursoId, acertos, total, percentual) {
+            try {
+                const progressoData = {
+                    cursoId: cursoId,
+                    avaliacaoConcluida: true,
+                    acertos: acertos,
+                    total: total,
+                    percentual: percentual,
+                    dataConclusao: new Date().toISOString(),
+                    respostas: respostas
+                };
+
+                // Salvar no localStorage mantendo histórico como array
+                const progressos = JSON.parse(localStorage.getItem('zoe_avaliacoes') || '{}');
+                if (!Array.isArray(progressos[cursoId])) {
+                    progressos[cursoId] = progressos[cursoId] ? [progressos[cursoId]] : [];
+                }
+                progressos[cursoId].push(progressoData);
+                localStorage.setItem('zoe_avaliacoes', JSON.stringify(progressos));
+
+                // Tentar salvar no Firestore
+                try {
+                    const user = auth.currentUser;
+                    if (user) {
+                        await setDoc(
+                            doc(db, 'usuarios', user.uid, 'avaliacoes', cursoId),
+                            progressoData
+                        );
+                    }
+                } catch (e) {
+                    console.log('Não foi possível salvar no Firestore, mas os dados foram salvos localmente.');
+                }
+
+                console.log('✅ Progresso da avaliação salvo com sucesso!');
+            } catch (error) {
+                console.error('Erro ao salvar progresso:', error);
+            }
+        }
+
+        // Carregar avaliação ao iniciar
+        carregarAvaliacao();
+    </script>
+</body>
+</html>

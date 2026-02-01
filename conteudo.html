@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zoe - Conteúdo</title>
+
+    <meta name="theme-color" content="#4E6813" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="assets/icons/favicon.svg"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.8/dist/purify.min.js"></script>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      body {
+        background-image: url(assets/images/fundoEscola.jpg);
+        background-size: cover;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+      }
+      .conteudo-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 24px;
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+      }
+      @media (max-width: 1024px) {
+        .conteudo-container {
+          grid-template-columns: 1fr;
+          padding: 20px 16px;
+        }
+      }
+      .main-content {
+        min-width: 0;
+      }
+      .video-wrapper {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 */
+        height: 0;
+        overflow: hidden;
+        border-radius: 20px;
+        background: #000;
+        margin-bottom: 30px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .video-wrapper iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+      .aula-info {
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        border: 1px solid rgba(0, 0, 0, 0.1); /* Ajustei para preto suave, já que o fundo é branco */
+        margin-bottom: 20px;
+
+        /* Configurações para o Scroll */
+        height: 600px; /* Define uma altura fixa */
+        overflow-y: auto; /* Adiciona scroll vertical apenas se o conteúdo exceder a altura */
+        overflow-x: hidden; /* Esconde o scroll horizontal (opcional) */
+      }
+      .aula-info h1 {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        color: rgb(34, 31, 31);
+        letter-spacing: 0.5px;
+      }
+      .aula-texto {
+        line-height: 1.8;
+        color: rgba(11, 11, 11, 0.8);
+        font-size: 1.05rem;
+      }
+      .sidebar-content {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .card-aula {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        padding: 25px;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .card-aula h3 {
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: white;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      .anotacoes-area {
+        width: 100%;
+        min-height: 180px;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        color: white;
+        font-family: inherit;
+        font-size: 0.95rem;
+        resize: vertical;
+        margin-bottom: 12px;
+        transition: var(--transition);
+      }
+      .anotacoes-area:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        background: rgba(255, 255, 255, 0.06);
+      }
+      .btn-concluir {
+        width: 100%;
+        padding: 14px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.05);
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transition: all 0.3s;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.85rem;
+      }
+      .btn-concluir:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+      }
+      .btn-concluir.concluida {
+        background: #348941;
+        border-color: #4ade80;
+        box-shadow: 0 5px 15px rgba(52, 137, 65, 0.4);
+      }
+      .material-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 0.95rem;
+        margin-bottom: 10px;
+        transition: all 0.2s;
+      }
+      .material-item:hover {
+        background: rgba(255, 255, 255, 0.08);
+        transform: translateX(5px);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+      .material-item i {
+        color: var(--color-primary);
+        font-size: 1.1rem;
+      }
+      .navegacao-aulas {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 64px;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: 0 20px;
+        gap: 12px;
+
+        background: #000;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+        z-index: 1000;
+      }
+      .btn-nav {
+        min-width: 120px;
+        height: 40px;
+        padding: 0 18px;
+
+        border-radius: 999px; /* visual mais moderno */
+        border: 1px solid rgba(255, 255, 255, 0.15);
+
+        background: #353636;
+        color: #fff;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+
+        transition:
+          transform 0.2s ease,
+          background 0.2s ease,
+          border-color 0.2s ease;
+      }
+
+      .back-btn {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        transition: var(--transition);
+      }
+      .back-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateX(-3px);
+      }
+      .save-status {
+        font-size: 0.75rem;
+        color: #4ade80;
+        display: none;
+        font-weight: 700;
+      }
+      #conteudo-render {
+        padding-top: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a id="link-voltar" href="#" class="back-btn"
+        ><i class="fas fa-arrow-left"></i
+      ></a>
+      <img
+        src="assets/images/zoe-logo.svg"
+        alt="Zoe"
+        class="nav-logo"
+        style="height: 35px"
+      />
+      <div style="width: 40px"></div>
+    </header>
+
+    <main class="conteudo-container">
+      <div class="main-content">
+        <div id="conteudo-render">
+          <div style="text-align: center; padding: 50px">
+            <i class="fas fa-spinner fa-spin fa-2x"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="card-aula">
+          <h3>Progresso</h3>
+          <button id="btn-concluir" class="btn-concluir">
+            <i class="far fa-circle"></i> Marcar como concluída
+          </button>
+        </div>
+
+        <div class="card-aula" id="card-materiais" style="display: none">
+          <h3>Materiais de Apoio</h3>
+          <div id="materiais-list"></div>
+        </div>
+
+        <div class="card-aula">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 15px;
+            "
+          >
+            <h3 style="margin: 0">Minhas Anotações</h3>
+            <span id="save-status" class="save-status">Salvo!</span>
+          </div>
+          <textarea
+            id="anotacoes"
+            class="anotacoes-area"
+            placeholder="Escreva aqui suas reflexões sobre a aula..."
+          ></textarea>
+          <p style="font-size: 0.75rem; color: #999">
+            Suas anotações são salvas automaticamente.
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <script type="module">
+      import {
+        auth,
+        onAuthStateChanged,
+        db,
+        doc,
+        getDoc,
+      } from "./js/firebase-init.js";
+      import { salvarProgresso, isAulaConcluida } from "./js/progresso.js";
+      const urlParams = new URLSearchParams(window.location.search);
+      const cursoId = urlParams.get("cursoId");
+      const moduloId = urlParams.get("moduloId");
+      let aulaIndex = parseInt(urlParams.get("aulaIndex") || "0");
+
+      document.getElementById("link-voltar").href =
+        `modulos.html?id=${cursoId}`;
+
+      let cursoCache = null;
+      let moduloCache = null;
+
+      async function carregarCursoUmaVez() {
+        if (cursoCache && moduloCache) return;
+
+        const response = await fetch("data/cursos.json");
+        if (!response.ok)
+          throw new Error("Arquivo data/cursos.json não encontrado");
+
+        const data = await response.json();
+        const itemCatalogo = data.catalogo.find((c) => c.id === cursoId);
+        if (!itemCatalogo) {
+          window.location.href = "escola.html";
+          return;
+        }
+
+        const resCurso = await fetch(itemCatalogo.dataFile);
+        if (!resCurso.ok) throw new Error("Arquivo do curso não encontrado");
+
+        cursoCache = await resCurso.json();
+        moduloCache = cursoCache?.modulos.find((m) => m.id === moduloId);
+
+        if (!moduloCache) {
+          window.location.href = "modulos.html?id=" + cursoId;
+          return;
+        }
+      }
+
+      function setURLSemReload() {
+        const newUrl = `conteudo.html?cursoId=${cursoId}&moduloId=${moduloId}&aulaIndex=${aulaIndex}`;
+        history.pushState({ aulaIndex }, "", newUrl);
+      }
+
+      function atualizarNavegacao() {
+        const navContainer = document.getElementById("navegacao-container");
+        const btnPrev = document.getElementById("btn-prev");
+        const btnNext = document.getElementById("btn-next");
+
+        // ✅ Se você removeu os botões do HTML, só ignora
+        if (!navContainer || !btnPrev || !btnNext) return;
+
+        navContainer.style.display = "flex";
+
+        btnPrev.disabled = aulaIndex === 0;
+        btnNext.disabled = aulaIndex >= moduloCache.conteudos.length - 1;
+
+        btnPrev.onclick = async () => {
+          if (aulaIndex <= 0) return;
+          aulaIndex -= 1;
+          setURLSemReload();
+          await renderizarAulaAtual();
+        };
+
+        btnNext.onclick = async () => {
+          if (aulaIndex >= moduloCache.conteudos.length - 1) return;
+          aulaIndex += 1;
+          setURLSemReload();
+          await renderizarAulaAtual();
+        };
+      }
+
+      function atualizarMateriais(aula) {
+        const cardMateriais = document.getElementById("card-materiais");
+        const materiaisList = document.getElementById("materiais-list");
+
+        if (aula.materiais && aula.materiais.length > 0) {
+          cardMateriais.style.display = "block";
+          materiaisList.innerHTML = "";
+
+          aula.materiais.forEach((mat) => {
+            const a = document.createElement("a");
+            a.href = mat.url;
+            a.className = "material-item";
+            a.target = "_blank";
+            a.innerHTML = `<i class="fas fa-file-pdf"></i> ${mat.titulo}`;
+            materiaisList.appendChild(a);
+          });
+        } else {
+          // importante: esconder quando não tiver materiais na próxima aula
+          cardMateriais.style.display = "none";
+          materiaisList.innerHTML = "";
+        }
+      }
+
+      function atualizarConcluir(cursoId, moduloId, aula) {
+        const btnConcluir = document.getElementById("btn-concluir");
+
+        const atualizarBotaoConcluir = () => {
+          const concluida = isAulaConcluida(cursoId, moduloId, aula.id);
+          if (concluida) {
+            btnConcluir.classList.add("concluida");
+            btnConcluir.innerHTML =
+              '<i class="fas fa-check-circle"></i> Aula Concluída';
+          } else {
+            btnConcluir.classList.remove("concluida");
+            btnConcluir.innerHTML =
+              '<i class="far fa-circle"></i> Marcar como concluída';
+          }
+        };
+
+        atualizarBotaoConcluir();
+
+        btnConcluir.onclick = () => {
+          const atualmenteConcluida = isAulaConcluida(
+            cursoId,
+            moduloId,
+            aula.id,
+          );
+          salvarProgresso(cursoId, moduloId, aula.id, !atualmenteConcluida);
+          atualizarBotaoConcluir();
+        };
+      }
+
+      function atualizarAnotacoes(cursoId, moduloId, aulaIndex) {
+        const anotacoesTextarea = document.getElementById("anotacoes");
+        const saveStatus = document.getElementById("save-status");
+        const anotacoesKey = `anotacoes_${cursoId}_${moduloId}_${aulaIndex}`;
+
+        // carregar anotação da aula atual
+        anotacoesTextarea.value = localStorage.getItem(anotacoesKey) || "";
+
+        // evita múltiplos listeners acumulando ao trocar aula
+        if (anotacoesTextarea._handler) {
+          anotacoesTextarea.removeEventListener(
+            "input",
+            anotacoesTextarea._handler,
+          );
+        }
+
+        let timeout;
+        const handler = () => {
+          clearTimeout(timeout);
+          timeout = setTimeout(() => {
+            localStorage.setItem(anotacoesKey, anotacoesTextarea.value);
+            saveStatus.style.display = "inline";
+            setTimeout(() => (saveStatus.style.display = "none"), 2000);
+          }, 1000);
+        };
+
+        anotacoesTextarea._handler = handler;
+        anotacoesTextarea.addEventListener("input", handler);
+      }
+      async function renderizarMarkdown(mdPath) {
+        const res = await fetch(mdPath);
+        if (!res.ok) throw new Error("Markdown não encontrado: " + mdPath);
+
+        const md = await res.text();
+
+        const htmlCru = marked.parse(md, { gfm: true, breaks: true });
+        return DOMPurify.sanitize(htmlCru);
+      }
+
+     function configurarSwipeEntreAulas() {
+  const area = document.getElementById("swipe-area");
+  if (!area) return;
+
+  // remove listeners antigos (garante que sempre funciona após re-render)
+  if (area._cleanupSwipe) area._cleanupSwipe();
+
+  let startX = 0;
+  let startY = 0;
+  let dragging = false;
+  let pointerId = null;
+
+  const LIMIAR_X = 80;
+  const LIMIAR_Y = 90; // um pouco maior porque você tem scroll dentro (.aula-info)
+
+  area.style.touchAction = "pan-y";
+
+  const onDown = (e) => {
+    const tag = (e.target?.tagName || "").toLowerCase();
+    if (["textarea", "input", "select", "a", "button"].includes(tag)) return;
+
+    dragging = true;
+    pointerId = e.pointerId;
+    startX = e.clientX;
+    startY = e.clientY;
+
+    // garante que vamos receber o pointerup mesmo se o dedo sair do elemento
+    try { area.setPointerCapture(pointerId); } catch {}
+  };
+
+  const onMove = (e) => {
+    if (!dragging || e.pointerId !== pointerId) return;
+
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+
+    // se for predominantemente horizontal, bloqueia comportamento padrão (ajuda muito no mobile)
+    if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) {
+      e.preventDefault();
+    }
+  };
+
+  const onUp = async (e) => {
+    if (!dragging || e.pointerId !== pointerId) return;
+    dragging = false;
+
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+
+    if (Math.abs(dy) > LIMIAR_Y) return;
+    if (Math.abs(dx) < LIMIAR_X) return;
+
+    if (dx < 0 && aulaIndex < moduloCache.conteudos.length - 1) {
+      aulaIndex++;
+      setURLSemReload();
+      await renderizarAulaAtual();
+      return;
+    }
+
+    if (dx > 0 && aulaIndex > 0) {
+      aulaIndex--;
+      setURLSemReload();
+      await renderizarAulaAtual();
+      return;
+    }
+  };
+
+  const onCancel = (e) => {
+    if (e.pointerId === pointerId) {
+      dragging = false;
+      pointerId = null;
+    }
+  };
+
+  area.addEventListener("pointerdown", onDown);
+  area.addEventListener("pointermove", onMove, { passive: false });
+  area.addEventListener("pointerup", onUp);
+  area.addEventListener("pointercancel", onCancel);
+
+  area._cleanupSwipe = () => {
+    area.removeEventListener("pointerdown", onDown);
+    area.removeEventListener("pointermove", onMove);
+    area.removeEventListener("pointerup", onUp);
+    area.removeEventListener("pointercancel", onCancel);
+    area._cleanupSwipe = null;
+  };
+}
+
+
+
+      async function renderizarAulaAtual() {
+        const aula = moduloCache?.conteudos[aulaIndex];
+
+        if (!aula) {
+          document.getElementById("conteudo-render").innerHTML =
+            '<p style="text-align: center; padding: 50px;">Conteúdo não encontrado.</p>';
+          return;
+        }
+
+        let htmlConteudo = "<p>Sem descrição disponível.</p>";
+
+        try {
+          if (aula.md) {
+            htmlConteudo = await renderizarMarkdown(aula.md);
+          } else if (aula.texto) {
+            // fallback caso alguma aula antiga ainda use texto
+            htmlConteudo = (aula.texto || "").replace(/\n/g, "<br>");
+          }
+        } catch (e) {
+          console.error("Erro ao carregar Markdown:", e, aula.md);
+          htmlConteudo = `<p style="color:#b00020;font-weight:700;">
+      Erro ao carregar conteúdo da aula.
+    </p>
+    <p style="font-size:0.9rem;opacity:0.8;">Arquivo: ${aula.md || "(sem md)"}</p>`;
+        }
+
+        const renderContainer = document.getElementById("conteudo-render");
+        renderContainer.innerHTML = `
+    <div class="video-wrapper">
+      <iframe src="${aula.videoUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div class="aula-info" id="swipe-area">
+      <p style="color: black; font-weight: 600; margin-bottom: 5px;">${moduloCache.titulo}</p>
+      <h1>${aula.titulo}</h1>
+      <div class="aula-texto md-content" >
+        ${htmlConteudo}
+      </div>
+    </div>
+  `;
+
+        atualizarConcluir(cursoId, moduloId, aula);
+        atualizarMateriais(aula);
+        atualizarAnotacoes(cursoId, moduloId, aulaIndex);
+        atualizarNavegacao();
+        configurarSwipeEntreAulas();
+      }
+
+      // quando usuário usa voltar/avançar do navegador
+      window.addEventListener("popstate", async (event) => {
+        if (event.state && typeof event.state.aulaIndex === "number") {
+          aulaIndex = event.state.aulaIndex;
+          await renderizarAulaAtual();
+        } else {
+          // fallback: lê da URL
+          const p = new URLSearchParams(window.location.search);
+          aulaIndex = parseInt(p.get("aulaIndex") || "0");
+          await renderizarAulaAtual();
+        }
+      });
+
+      // boot
+      (async function init() {
+        try {
+          await carregarCursoUmaVez();
+          // deixa o estado inicial registrado sem “empilhar” histórico
+          history.replaceState({ aulaIndex }, "", window.location.href);
+          await renderizarAulaAtual();
+              configurarSwipeEntreAulas();
+        } catch (error) {
+          console.error("❌ Erro ao carregar conteúdo local:", error);
+          document.getElementById("conteudo-render").innerHTML =
+            '<p style="text-align: center; padding: 50px;">Erro ao carregar conteúdo.</p>';
+        }
+      })();
+    </script>
+  </body>
+</html>

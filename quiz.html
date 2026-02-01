@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoe - Quiz de Fixação</title>
+    
+    <meta name="theme-color" content="#4E6813">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192x192.png">
+    
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .quiz-container {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .quiz-header h1 {
+            font-size: 1.5rem;
+            color: var(--color-text);
+            margin-bottom: 10px;
+        }
+        .question-box {
+            margin-bottom: 25px;
+            display: none;
+        }
+        .question-box.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--color-text);
+        }
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .option-item {
+            padding: 15px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+        .option-item:hover {
+            border-color: var(--color-primary);
+            background: #f9ffde;
+        }
+        .option-item.selected {
+            border-color: var(--color-primary);
+            background: #f9ffde;
+            font-weight: 600;
+        }
+        .quiz-footer {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .btn-quiz {
+            padding: 12px 25px;
+            border-radius: 8px;
+            border: none;
+            background: var(--color-primary);
+            color: var(--color-bg);
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .btn-quiz:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .result-screen {
+            text-align: center;
+            display: none;
+        }
+        .result-score {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--color-primary);
+            margin: 20px 0;
+        }
+        .progress-dots {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #eee;
+        }
+        .dot.active {
+            background: var(--color-primary);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="assets/images/zoe-logo.svg" alt="Zoe" class="nav-logo" style="margin: 0 auto;">
+    </header>
+
+    <main class="quiz-container">
+        <div id="quiz-content">
+            <div class="quiz-header">
+                <p id="modulo-nome" style="color: var(--color-primary); font-weight: 600;"></p>
+                <h1>Quiz de Fixação</h1>
+                <div class="progress-dots" id="progress-dots"></div>
+            </div>
+
+            <div id="questions-container"></div>
+
+            <div class="quiz-footer">
+                <span id="question-counter" style="font-size: 0.9rem; color: #999;"></span>
+                <button id="btn-next-question" class="btn-quiz" disabled>Próxima Pergunta</button>
+            </div>
+        </div>
+
+        <div id="result-screen" class="result-screen">
+            <i class="fas fa-trophy" style="font-size: 4rem; color: #FFD700;"></i>
+            <h1>Parabéns!</h1>
+            <p>Você concluiu o quiz do módulo.</p>
+            <div class="result-score" id="result-score">0/0</div>
+            <p id="result-message"></p>
+            <button class="btn-quiz" style="margin-top: 20px;" onclick="voltarParaModulos()">Voltar para Módulos</button>
+        </div>
+    </main>
+
+    <script type="module">
+        import { auth, onAuthStateChanged, db, doc, getDoc } from './js/firebase-init.js';
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) window.location.href = 'login.html';
+        });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const cursoId = urlParams.get('cursoId');
+        const moduloId = urlParams.get('moduloId');
+
+        let questions = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedOption = null;
+
+        async function carregarQuiz() {
+            try {
+                // Tentar carregar do Firestore
+                const cursoDoc = await getDoc(doc(db, 'cursos', cursoId));
+                let curso;
+
+                if (cursoDoc.exists()) {
+                    curso = { id: cursoDoc.id, ...cursoDoc.data() };
+                } else {
+                    // Fallback para JSON local
+                    const response = await fetch('/data/cursos.json');
+                    const data = await response.json();
+                    curso = data.cursos.find(c => c.id === cursoId);
+                }
+
+                const modulo = curso?.modulos.find(m => m.id === moduloId);
+                
+                if (!modulo || !modulo.quiz) {
+                    window.location.href = `modulos.html?cursoId=${cursoId}`;
+                    return;
+                }
+
+                document.getElementById('modulo-nome').textContent = modulo.titulo;
+                questions = modulo.quiz;
+                
+                renderDots();
+                renderQuestion();
+            } catch (error) {
+                console.error('Erro ao carregar quiz:', error);
+            }
+        }
+
+        function renderDots() {
+            const dotsContainer = document.getElementById('progress-dots');
+            dotsContainer.innerHTML = '';
+            questions.forEach((_, i) => {
+                const dot = document.createElement('div');
+                dot.className = `dot ${i === currentQuestionIndex ? 'active' : ''}`;
+                dotsContainer.appendChild(dot);
+            });
+        }
+
+        function renderQuestion() {
+            const container = document.getElementById('questions-container');
+            const q = questions[currentQuestionIndex];
+            
+            container.innerHTML = `
+                <div class="question-box active">
+                    <div class="question-text">${q.pergunta}</div>
+                    <div class="options-list">
+                        ${q.opcoes.map((opt, i) => `
+                            <div class="option-item" onclick="selectOption(${i})">${opt}</div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('question-counter').textContent = `Pergunta ${currentQuestionIndex + 1} de ${questions.length}`;
+            document.getElementById('btn-next-question').disabled = true;
+            selectedOption = null;
+        }
+
+        window.selectOption = (index) => {
+            selectedOption = index;
+            const options = document.querySelectorAll('.option-item');
+            options.forEach((opt, i) => {
+                if (i === index) opt.classList.add('selected');
+                else opt.classList.remove('selected');
+            });
+            document.getElementById('btn-next-question').disabled = false;
+        };
+
+        document.getElementById('btn-next-question').onclick = () => {
+            if (selectedOption === questions[currentQuestionIndex].correta) {
+                score++;
+            }
+
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < questions.length) {
+                renderDots();
+                renderQuestion();
+            } else {
+                showResults();
+            }
+        };
+
+        function showResults() {
+            document.getElementById('quiz-content').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'block';
+            document.getElementById('result-score').textContent = `${score}/${questions.length}`;
+            
+            const percent = (score / questions.length) * 100;
+            let msg = "";
+            if (percent === 100) msg = "Excelente! Você dominou este conteúdo.";
+            else if (percent >= 70) msg = "Muito bem! Você teve um ótimo desempenho.";
+            else msg = "Bom esforço! Que tal revisar o conteúdo e tentar novamente?";
+            
+            document.getElementById('result-message').textContent = msg;
+        }
+
+        window.voltarParaModulos = () => {
+            window.location.href = `modulos.html?cursoId=${cursoId}`;
+        };
+
+        carregarQuiz();
+    </script>
+</body>
+</html>

@@ -1,0 +1,252 @@
+{
+  "id": "apocalipse-revelado",
+  "titulo": "O Apocalipse de Jesus Cristo — Da Revelação à Consumação",
+  "descricao": "Uma jornada teológica, espiritual e escatológica pela revelação final de Cristo, da glória do Cordeiro à consumação da história.",
+  "imagem": "assets/cursos/apocalipse-revelado/apocalipse.jpg",
+  "modulos": [
+    {
+      "id": "introducao",
+      "titulo": "Introdução e Apresentação do Curso",
+      "descricao": "Textos introdutórios do curso.",
+      "conteudos": [
+        {
+          "id": "introducao-aula-01-apresentacao-geral-do-curso",
+          "titulo": "APRESENTAÇÃO GERAL DO CURSO",
+          "tipo": "texto",
+          "videoUrl": "",
+          "materiais": [],
+          "md": "data/conteudos/apocalipse-revelado/00_Apresentacao_Geral.md"
+        }
+      ]
+    },
+    {
+      "id": "bloco-1",
+      "titulo": "Bloco 1: Introdução e Propósito do Apocalipse",
+      "descricao": "A revelação como consolo, esperança e fortalecimento da fé.",
+      "conteudos": [
+        {
+          "id": "bloco-1-aula-01-introducao-ao-livro",
+          "titulo": "Introdução ao Livro",
+          "tipo": "texto",
+          "videoUrl": "",
+          "materiais": [],
+          "md": "data/conteudos/apocalipse-revelado/01_Bloco_1_Introducao.md"
+        }
+      ]
+    },
+    {
+      "id": "bloco-2",
+      "titulo": "Bloco 2: A Dignidade do Filho",
+      "descricao": "Cristo glorificado, o trono, o Cordeiro e a adoração celestial.",
+      "conteudos": [
+        {
+          "id": "bloco-2-aula-01-introducao",
+          "titulo": "A Dignidade do Filho",
+          "tipo": "texto",
+          "videoUrl": "",
+          "materiais": [],
+          "md": "data/conteudos/apocalipse-revelado/02_Bloco_2_Dignidade_do_Filho.md"
+        }
+      ]
+    },
+    {
+      "id": "bloco-3",
+      "titulo": "Bloco 3: Cartas às Sete Igrejas",
+      "descricao": "A igreja à luz da glória de Cristo.",
+      "conteudos": [
+        {
+          "id": "bloco-3-aula-01-introducao-historica",
+          "titulo": "Cartas às Sete Igrejas",
+          "tipo": "texto",
+          "videoUrl": "",
+          "materiais": [],
+          "md": "data/conteudos/apocalipse-revelado/03_Bloco_3_Sete_Igrejas.md"
+        }
+      ]
+    },
+    {
+      "id": "bloco-4",
+      "titulo": "Bloco 4: Selos, Trombetas e Taças",
+      "descricao": "O juízo de Deus na história.",
+      "conteudos": [
+        {
+          "id": "bloco-4-aula-01-introducao-do-bloco",
+          "titulo": "Selos, Trombetas e Taças",
+          "tipo": "texto",
+          "videoUrl": "",
+          "materiais": [],
+          "md": "data/conteudos/apocalipse-revelado/04_Bloco_4_Juizos.md"
+        }
+      ]
+    },
+    {
+      "id": "bloco-5",
+      "titulo": "Bloco 5: O Grande Conflito Espiritual",
+      "descricao": "A guerra invisível da história.",
+      "conteudos": [
+        {
+          "id": "bloco-5-aula-01-introducao-do-bloco",
+          "titulo": "O Grande Conflito Espiritual",
+          "tipo": "texto",
+          "videoUrl": "",
+          "materiais": [],
+          "md": "data/conteudos/apocalipse-revelado/05_Bloco_5_Conflito_Espiritual.md"
+        }
+      ]
+    },
+    {
+      "id": "bloco-6",
+      "titulo": "Bloco 6: O Milênio",
+      "descricao": "O Reino de Cristo manifesto na história.",
+      "conteudos": [
+        {
+          "id": "bloco-6-aula-01-milenio",
+          "titulo": "O Milênio",
+          "tipo": "texto",
+          "videoUrl": "",
+          "materiais": [],
+          "md": "data/conteudos/apocalipse-revelado/06_Bloco_6_Milenio.md"
+        }
+      ]
+    },
+    {
+      "id": "bloco-7",
+      "titulo": "Bloco 7: Nova Criação",
+      "descricao": "O fim da história e a eternidade com Deus.",
+      "conteudos": [
+        {
+          "id": "bloco-7-aula-01-introducao-do-bloco",
+          "titulo": "A Esperança da Nova Criação",
+          "tipo": "texto",
+          "videoUrl": "",
+          "materiais": [],
+          "md": "data/conteudos/apocalipse-revelado/07_Bloco_7_Consumacao.md"
+        },
+        {
+          "id": "bloco-7-aula-02-bibliografia",
+          "titulo": "Bibliografia Geral",
+          "tipo": "texto",
+          "videoUrl": "",
+          "materiais": [],
+          "md": "data/conteudos/apocalipse-revelado/08_Bibliografia.md"
+        }
+      ]
+    }
+  ],
+  "avaliacao": {
+    "titulo": "Avaliação Final – Apocalipse Revelado",
+    "descricao": "Teste seus conhecimentos sobre o livro do Apocalipse.",
+    "questoes": [
+      {
+        "id": 1,
+        "pergunta": "O termo 'Apokalypsis' significa:",
+        "opcoes": [
+          "Fim do mundo",
+          "Julgamento",
+          "Revelação",
+          "Profecia"
+        ],
+        "correta": 2
+      },
+      {
+        "id": 2,
+        "pergunta": "Segundo Apocalipse 1:1, o livro é principalmente:",
+        "opcoes": [
+          "Revelação de eventos futuros",
+          "Revelação da Igreja",
+          "Revelação de Jesus Cristo",
+          "Revelação de anjos"
+        ],
+        "correta": 2
+      },
+      {
+        "id": 3,
+        "pergunta": "Quem é o único digno de abrir o livro selado?",
+        "opcoes": [
+          "O anjo Miguel",
+          "Os anciãos",
+          "O Cordeiro",
+          "Os profetas"
+        ],
+        "correta": 2
+      },
+      {
+        "id": 4,
+        "pergunta": "As sete igrejas representam:",
+        "opcoes": [
+          "Sete denominações",
+          "Sete períodos históricos",
+          "A igreja em todos os tempos",
+          "Sete nações"
+        ],
+        "correta": 2
+      },
+      {
+        "id": 5,
+        "pergunta": "O juízo de Deus no Apocalipse é apresentado como:",
+        "opcoes": [
+          "Vingança",
+          "Caos",
+          "Justiça santa",
+          "Castigo humano"
+        ],
+        "correta": 2
+      },
+      {
+        "id": 6,
+        "pergunta": "A mulher e o dragão em Apocalipse 12 representam:",
+        "opcoes": [
+          "Maria e Roma",
+          "Israel e Egito",
+          "O povo de Deus e Satanás",
+          "A igreja e o mundo"
+        ],
+        "correta": 2
+      },
+      {
+        "id": 7,
+        "pergunta": "Babilônia simboliza:",
+        "opcoes": [
+          "Uma cidade literal apenas",
+          "O sistema do mundo sem Deus",
+          "Uma nação específica",
+          "O inferno"
+        ],
+        "correta": 1
+      },
+      {
+        "id": 8,
+        "pergunta": "O Milênio é caracterizado por:",
+        "opcoes": [
+          "Ausência de Cristo",
+          "Governo humano",
+          "Reinado visível de Cristo",
+          "Caos espiritual"
+        ],
+        "correta": 2
+      },
+      {
+        "id": 9,
+        "pergunta": "O problema final da humanidade é revelado como:",
+        "opcoes": [
+          "Falta de recursos",
+          "Ambiente",
+          "Sistema político",
+          "Natureza caída do coração humano"
+        ],
+        "correta": 3
+      },
+      {
+        "id": 10,
+        "pergunta": "A nova criação representa:",
+        "opcoes": [
+          "Destruição do mundo",
+          "Fuga da matéria",
+          "Renovação de todas as coisas",
+          "Fim da existência"
+        ],
+        "correta": 2
+      }
+    ]
+  }
+}
