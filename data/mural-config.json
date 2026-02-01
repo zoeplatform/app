@@ -1,0 +1,22 @@
+{
+  "mural_config": {
+    "colecao_firebase": "avisos",
+    "campos": {
+      "titulo": "string",
+      "descricao": "string",
+      "categoria": "string (Próximo Domingo, Inscrições Abertas, Comunicado, Evento)",
+      "data_criacao": "timestamp",
+      "data_expiracao": "timestamp (opcional)",
+      "ativo": "boolean"
+    },
+    "exemplo_documento": {
+      "titulo": "Noite de Adoração",
+      "descricao": "Venha participar de um tempo profético às 19h.",
+      "categoria": "Próximo Domingo",
+      "data_criacao": "2026-01-14T10:00:00Z",
+      "data_expiracao": "2026-01-19T23:59:59Z",
+      "ativo": true
+    },
+    "instrucoes": "Este arquivo documenta como será estruturado o Mural de Avisos dinâmico no Firebase. Cada aviso será armazenado na coleção 'avisos' e será carregado dinamicamente na Home."
+  }
+}

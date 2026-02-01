@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zoe - Conteúdo</title>
+
+    <meta name="theme-color" content="#4E6813" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="assets/icons/favicon.svg"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.8/dist/purify.min.js"></script>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        min-height: 100%;
+      }
+
+      html {
+        background-color: #000; /* garante que a faixa (se existir) fica igual */
+      }
+
+      body {
+        min-height: 100vh;
+        background-color: #000;
+        background-position: center center;
+        background-size:cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        overflow-x: clip; /* melhor que hidden pra evitar “faixa fantasma” */
+      }
+
+      /* overlay para leitura */
+      #bg-overlay {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        background: rgba(0, 0, 0, 0.45);
+      }
+
+      /* garanta que seu conteúdo fica acima */
+      .main-content,
+      header,
+      #conteudo-render {
+        position: relative;
+        z-index: 1;
+      }
+      .conteudo-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 24px;
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+      }
+      @media (max-width: 1024px) {
+        .conteudo-container {
+          grid-template-columns: 1fr;
+          padding: 20px 16px;
+        }
+      }
+      .main-content {
+        min-width: 0;
+      }
+      .video-wrapper {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 */
+        height: 0;
+        overflow: hidden;
+        border-radius: 20px;
+        background: #000;
+        margin-bottom: 30px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .video-wrapper iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+      .aula-info {
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        border: 1px solid rgba(0, 0, 0, 0.1); /* Ajustei para preto suave, já que o fundo é branco */
+        margin-bottom: 20px;
+
+        /* Configurações para o Scroll */
+        height: 600px; /* Define uma altura fixa */
+        overflow-y: auto; /* Adiciona scroll vertical apenas se o conteúdo exceder a altura */
+        overflow-x: hidden; /* Esconde o scroll horizontal (opcional) */
+      }
+      .aula-info h1 {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        color: rgb(34, 31, 31);
+        letter-spacing: 0.5px;
+      }
+      .aula-texto {
+        line-height: 1.8;
+        color: rgba(11, 11, 11, 0.8);
+        font-size: 1.05rem;
+      }
+      .sidebar-content {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .card-aula {
+        background: rgba(0, 0, 0,1);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        padding: 25px;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .card-aula h3 {
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: white;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      .anotacoes-area {
+        width: 100%;
+        min-height: 180px;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        color: white;
+        font-family: inherit;
+        font-size: 0.95rem;
+        resize: vertical;
+        margin-bottom: 12px;
+        transition: var(--transition);
+      }
+      .anotacoes-area:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        background: rgba(255, 255, 255, 0.06);
+      }
+      .btn-concluir {
+        width: 100%;
+        padding: 14px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.05);
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transition: all 0.3s;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.85rem;
+      }
+      .btn-concluir:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+      }
+      .btn-concluir.concluida {
+        background: #348941;
+        border-color: #4ade80;
+        box-shadow: 0 5px 15px rgba(52, 137, 65, 0.4);
+      }
+      .material-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 0.95rem;
+        margin-bottom: 10px;
+        transition: all 0.2s;
+      }
+      .material-item:hover {
+        background: rgba(255, 255, 255, 0.08);
+        transform: translateX(5px);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+      .material-item i {
+        color: var(--color-primary);
+        font-size: 1.1rem;
+      }
+      .navegacao-aulas {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 64px;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: 0 20px;
+        gap: 12px;
+
+        background: #000;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+        z-index: 1000;
+      }
+      .btn-nav {
+        min-width: 120px;
+        height: 40px;
+        padding: 0 18px;
+
+        border-radius: 999px; /* visual mais moderno */
+        border: 1px solid rgba(255, 255, 255, 0.15);
+
+        background: #353636;
+        color: #fff;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+
+        transition:
+          transform 0.2s ease,
+          background 0.2s ease,
+          border-color 0.2s ease;
+      }
+
+      .back-btn {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        transition: var(--transition);
+      }
+      .back-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateX(-3px);
+      }
+      .save-status {
+        font-size: 0.75rem;
+        color: #4ade80;
+        display: none;
+        font-weight: 700;
+      }
+      #conteudo-render {
+        padding-top: 20px;
+        padding-bottom: 50px;
+      }
+      #swipe-edge-left,
+#swipe-edge-right {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 28px;            /* ajuste 20–40 */
+  z-index: 10000;         /* acima do conteúdo */
+  background: transparent;
+  touch-action: pan-y;    /* permite scroll vertical */
+}
+
+#swipe-edge-left { left: 0; }
+#swipe-edge-right { right: 0; }
+
+    </style>
+  </head>
+  <body>
+    <header>
+      <a id="link-voltar" href="#" class="back-btn"
+        ><i class="fas fa-arrow-left"></i
+      ></a>
+      <img
+        src="assets/images/zoe-logo.svg"
+        alt="Zoe"
+        class="nav-logo"
+        style="height: 35px"
+      />
+      <div style="width: 40px"></div>
+    </header>
+
+    <main class="conteudo-container">
+      <div class="main-content">
+        <div id="conteudo-render">
+          <div style="text-align: center; padding: 50px">
+            <i class="fas fa-spinner fa-spin fa-2x"></i>
+          </div>
+        </div>
+      </div>
+      <div class="homeback"></div>
+
+      <div class="sidebar-content">
+        <div class="card-aula">
+          <h3>Progresso</h3>
+          <button id="btn-concluir" class="btn-concluir">
+            <i class="far fa-circle"></i> Marcar como concluída
+          </button>
+        </div>
+
+        <div class="card-aula" id="card-materiais" style="display: none">
+          <h3>Materiais de Apoio</h3>
+          <div id="materiais-list"></div>
+        </div>
+
+        <div class="card-aula">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 15px;
+            "
+          >
+            <h3 style="margin: 0">Minhas Anotações</h3>
+            <span id="save-status" class="save-status">Salvo!</span>
+          </div>
+          <textarea
+            id="anotacoes"
+            class="anotacoes-area"
+            placeholder="Escreva aqui suas reflexões sobre a aula..."
+          ></textarea>
+          <p style="font-size: 0.75rem; color: #999">
+            Suas anotações são salvas automaticamente.
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <script type="module">
+      import {
+        auth,
+        onAuthStateChanged,
+        db,
+        doc,
+        getDoc,
+      } from "./js/firebase-init.js";
+      import { salvarProgresso, isAulaConcluida } from "./js/progresso.js";
+      const urlParams = new URLSearchParams(window.location.search);
+      const cursoId = urlParams.get("cursoId");
+      let moduloId = urlParams.get("moduloId");
+      let aulaIndex = parseInt(urlParams.get("aulaIndex") || "0");
+
+      document.getElementById("link-voltar").href =
+        `modulos.html?id=${cursoId}`;
+
+      let cursoCache = null;
+      let moduloCache = null;
+      // 🔍 DEBUG: expõe no console
+      window._debug = {
+        get curso() {
+          return cursoCache;
+        },
+        get modulo() {
+          return moduloCache;
+        },
+        get aulaIndex() {
+          return aulaIndex;
+        },
+        set aulaIndex(v) {
+          aulaIndex = v;
+        },
+      };
+      function aplicarTemaDoCurso(curso) {
+        const theme = curso?.theme;
+        if (!theme) return;
+
+        // imagem de fundo
+        if (theme.bgImage) {
+          document.body.style.backgroundImage = `url('${theme.bgImage}')`;
+        } else {
+          document.body.style.backgroundImage = "";
+        }
+
+        // cor do texto (opcional)
+        if (theme.textColor) {
+          document.body.style.color = theme.textColor;
+        }
+
+        // overlay (opcional)
+        const overlay = document.getElementById("bg-overlay");
+        if (overlay) {
+          const alpha =
+            typeof theme.bgOverlay === "number" ? theme.bgOverlay : 0.45;
+          overlay.style.background = `rgba(0,0,0,${alpha})`;
+        }
+      }
+
+      async function carregarCursoUmaVez() {
+        if (cursoCache && moduloCache) return;
+
+        const response = await fetch("data/cursos.json");
+        if (!response.ok)
+          throw new Error("Arquivo data/cursos.json não encontrado");
+
+        const data = await response.json();
+        const itemCatalogo = data.catalogo.find((c) => c.id === cursoId);
+        if (!itemCatalogo) {
+          window.location.href = "escola.html";
+          return;
+        }
+
+        const resCurso = await fetch(itemCatalogo.dataFile);
+        if (!resCurso.ok) throw new Error("Arquivo do curso não encontrado");
+
+        cursoCache = await resCurso.json();
+        moduloCache = cursoCache?.modulos.find((m) => m.id === moduloId);
+
+        if (!moduloCache) {
+          window.location.href = "modulos.html?id=" + cursoId;
+          return;
+        }
+      }
+      function getIndiceModuloAtual() {
+        return (cursoCache?.modulos || []).findIndex((m) => m.id === moduloId);
+      }
+
+      async function irParaModuloPorIndice(novoIndice) {
+        const mods = cursoCache?.modulos || [];
+        if (novoIndice < 0 || novoIndice >= mods.length) return;
+
+        const novoModulo = mods[novoIndice];
+        moduloId = novoModulo.id;
+        moduloCache = novoModulo;
+
+        // como cada módulo tem 1 aula, sempre começa no 0
+        aulaIndex = 0;
+
+        setURLSemReload();
+        await renderizarAulaAtual();
+      }
+
+      async function irProximoModulo() {
+        const i = getIndiceModuloAtual();
+        if (i === -1) return;
+        await irParaModuloPorIndice(i + 1);
+      }
+
+      async function irModuloAnterior() {
+        const i = getIndiceModuloAtual();
+        if (i === -1) return;
+        await irParaModuloPorIndice(i - 1);
+      }
+
+      function setURLSemReload() {
+        const newUrl = `conteudo.html?cursoId=${cursoId}&moduloId=${moduloId}&aulaIndex=${aulaIndex}`;
+        history.pushState({ aulaIndex, moduloId }, "", newUrl);
+      }
+
+      function atualizarNavegacao() {
+        const navContainer = document.getElementById("navegacao-container");
+        const btnPrev = document.getElementById("btn-prev");
+        const btnNext = document.getElementById("btn-next");
+
+        // ✅ Se você removeu os botões do HTML, só ignora
+        if (!navContainer || !btnPrev || !btnNext) return;
+
+        navContainer.style.display = "flex";
+
+        btnPrev.disabled = aulaIndex === 0;
+        btnNext.disabled = aulaIndex >= moduloCache.conteudos.length - 1;
+
+        btnPrev.onclick = async () => {
+          if (aulaIndex <= 0) return;
+          aulaIndex -= 1;
+          setURLSemReload();
+          await renderizarAulaAtual();
+        };
+
+        btnNext.onclick = async () => {
+          if (aulaIndex >= moduloCache.conteudos.length - 1) return;
+          aulaIndex += 1;
+          setURLSemReload();
+          await renderizarAulaAtual();
+        };
+      }
+
+      function atualizarMateriais(aula) {
+        const cardMateriais = document.getElementById("card-materiais");
+        const materiaisList = document.getElementById("materiais-list");
+
+        if (aula.materiais && aula.materiais.length > 0) {
+          cardMateriais.style.display = "block";
+          materiaisList.innerHTML = "";
+
+          aula.materiais.forEach((mat) => {
+            const a = document.createElement("a");
+            a.href = mat.url;
+            a.className = "material-item";
+            a.target = "_blank";
+            a.innerHTML = `<i class="fas fa-file-pdf"></i> ${mat.titulo}`;
+            materiaisList.appendChild(a);
+          });
+        } else {
+          // importante: esconder quando não tiver materiais na próxima aula
+          cardMateriais.style.display = "none";
+          materiaisList.innerHTML = "";
+        }
+      }
+
+      function atualizarConcluir(cursoId, moduloId, aula) {
+        const btnConcluir = document.getElementById("btn-concluir");
+
+        const atualizarBotaoConcluir = () => {
+          const concluida = isAulaConcluida(cursoId, moduloId, aula.id);
+          if (concluida) {
+            btnConcluir.classList.add("concluida");
+            btnConcluir.innerHTML =
+              '<i class="fas fa-check-circle"></i> Aula Concluída';
+          } else {
+            btnConcluir.classList.remove("concluida");
+            btnConcluir.innerHTML =
+              '<i class="far fa-circle"></i> Marcar como concluída';
+          }
+        };
+
+        atualizarBotaoConcluir();
+
+        btnConcluir.onclick = () => {
+          const atualmenteConcluida = isAulaConcluida(
+            cursoId,
+            moduloId,
+            aula.id,
+          );
+          salvarProgresso(cursoId, moduloId, aula.id, !atualmenteConcluida);
+          atualizarBotaoConcluir();
+        };
+      }
+
+      function atualizarAnotacoes(cursoId, moduloId, aulaIndex) {
+        const anotacoesTextarea = document.getElementById("anotacoes");
+        const saveStatus = document.getElementById("save-status");
+        const anotacoesKey = `anotacoes_${cursoId}_${moduloId}_${aulaIndex}`;
+
+        // carregar anotação da aula atual
+        anotacoesTextarea.value = localStorage.getItem(anotacoesKey) || "";
+
+        // evita múltiplos listeners acumulando ao trocar aula
+        if (anotacoesTextarea._handler) {
+          anotacoesTextarea.removeEventListener(
+            "input",
+            anotacoesTextarea._handler,
+          );
+        }
+
+        let timeout;
+        const handler = () => {
+          clearTimeout(timeout);
+          timeout = setTimeout(() => {
+            localStorage.setItem(anotacoesKey, anotacoesTextarea.value);
+            saveStatus.style.display = "inline";
+            setTimeout(() => (saveStatus.style.display = "none"), 2000);
+          }, 1000);
+        };
+
+        anotacoesTextarea._handler = handler;
+        anotacoesTextarea.addEventListener("input", handler);
+      }
+      async function renderizarMarkdown(mdPath) {
+        const res = await fetch(mdPath);
+        if (!res.ok) throw new Error("Markdown não encontrado: " + mdPath);
+
+        const md = await res.text();
+
+        const htmlCru = marked.parse(md, { gfm: true, breaks: true });
+        return DOMPurify.sanitize(htmlCru);
+      }
+
+      function configurarSwipeBordas() {
+        const left = document.getElementById("swipe-edge-left");
+        const right = document.getElementById("swipe-edge-right");
+        if (!left || !right) {
+          console.warn("Swipe edges não encontrados no DOM");
+          return;
+        }
+
+        // evita duplicar
+        if (left._swipeOn) return;
+        left._swipeOn = true;
+
+        const LIMIAR_X = 60; // distância horizontal mínima
+        const LIMIAR_Y = 90; // tolerância vertical
+
+        function attach(el, direction) {
+          let startX = 0;
+          let startY = 0;
+
+          // MOBILE
+          el.addEventListener(
+            "touchstart",
+            (e) => {
+              if (e.touches.length !== 1) return;
+              startX = e.touches[0].clientX;
+              startY = e.touches[0].clientY;
+            },
+            { passive: true },
+          );
+
+          el.addEventListener(
+            "touchend",
+            async (e) => {
+              const t = e.changedTouches && e.changedTouches[0];
+              if (!t) return;
+
+              const dx = t.clientX - startX;
+              const dy = t.clientY - startY;
+              console.log("EDGE SWIPE:", direction, "dx:", dx, "dy:", dy);
+              // se rolou muito pra cima/baixo, era scroll
+              if (Math.abs(dy) > LIMIAR_Y) return;
+              if (Math.abs(dx) < LIMIAR_X) return;
+
+              // Na borda esquerda: swipe para esquerda -> próxima (dx < 0)
+              // Na borda direita: swipe para direita -> anterior (dx > 0)
+              // esquerda (prev): arrastar para direita (dx > 0)
+              // borda esquerda (prev): puxou para dentro (dx > 0) => módulo anterior
+              // borda esquerda (prev): puxou para dentro (dx > 0) => módulo anterior
+              if (direction === "prev" && dx > 0) {
+                await irModuloAnterior();
+                return;
+              }
+
+              // borda direita (next): puxou para dentro (dx < 0) => próximo módulo
+              if (direction === "next" && dx < 0) {
+                await irProximoModulo();
+                return;
+              }
+            },
+            { passive: true },
+          );
+
+          // DESKTOP (opcional, mas útil)
+          let mouseDown = false;
+          el.addEventListener("mousedown", (e) => {
+            mouseDown = true;
+            startX = e.clientX;
+            startY = e.clientY;
+          });
+
+          el.addEventListener("mouseup", async (e) => {
+            if (!mouseDown) return;
+            mouseDown = false;
+
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+
+            if (Math.abs(dy) > LIMIAR_Y) return;
+            if (Math.abs(dx) < LIMIAR_X) return;
+
+            // borda esquerda (prev): puxou para dentro (dx > 0) => módulo anterior
+            if (direction === "prev" && dx > 0) {
+              await irModuloAnterior();
+              return;
+            }
+
+            // borda direita (next): puxou para dentro (dx < 0) => próximo módulo
+            if (direction === "next" && dx < 0) {
+              await irProximoModulo();
+              return;
+            }
+          });
+        }
+
+        // esquerda: “arrasta para esquerda” = próxima
+        attach(left, "prev"); // borda esquerda = voltar
+        // direita: “arrasta para direita” = anterior
+        attach(right, "next"); // borda direita = avançar
+
+        console.log("✅ Swipe nas bordas ativo");
+        console.log("Total de aulas:", moduloCache?.conteudos?.length);
+        console.log(
+          "Aulas:",
+          moduloCache?.conteudos?.map((a) => ({
+            id: a.id,
+            titulo: a.titulo,
+            md: a.md,
+          })),
+        );
+      }
+
+      async function renderizarAulaAtual() {
+        const aula = moduloCache?.conteudos[aulaIndex];
+
+        if (!aula) {
+          document.getElementById("conteudo-render").innerHTML =
+            '<p style="text-align: center; padding: 50px;">Conteúdo não encontrado.</p>';
+          return;
+        }
+
+        let htmlConteudo = "<p>Sem descrição disponível.</p>";
+
+        try {
+          if (aula.md) {
+            htmlConteudo = await renderizarMarkdown(aula.md);
+          } else if (aula.texto) {
+            // fallback caso alguma aula antiga ainda use texto
+            htmlConteudo = (aula.texto || "").replace(/\n/g, "<br>");
+          }
+        } catch (e) {
+          console.error("Erro ao carregar Markdown:", e, aula.md);
+          htmlConteudo = `<p style="color:#b00020;font-weight:700;">
+      Erro ao carregar conteúdo da aula.
+    </p>
+    <p style="font-size:0.9rem;opacity:0.8;">Arquivo: ${aula.md || "(sem md)"}</p>`;
+        }
+
+        const renderContainer = document.getElementById("conteudo-render");
+        renderContainer.innerHTML = `
+    <div class="video-wrapper">
+      <iframe src="${aula.videoUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div class="aula-info" id="swipe-area">
+      <p style="color: black; font-weight: 600; margin-bottom: 5px;">${moduloCache.titulo}</p>
+      <h1>${aula.titulo}</h1>
+      <div class="aula-texto md-content" >
+        ${htmlConteudo}
+      </div>
+    </div>
+  `;
+
+        atualizarConcluir(cursoId, moduloId, aula);
+        atualizarMateriais(aula);
+        atualizarAnotacoes(cursoId, moduloId, aulaIndex);
+        atualizarNavegacao();
+      }
+
+      // quando usuário usa voltar/avançar do navegador
+      window.addEventListener("popstate", async (event) => {
+        if (event.state) {
+          if (typeof event.state.aulaIndex === "number")
+            aulaIndex = event.state.aulaIndex;
+          if (typeof event.state.moduloId === "string")
+            moduloId = event.state.moduloId;
+        } else {
+          const p = new URLSearchParams(window.location.search);
+          aulaIndex = parseInt(p.get("aulaIndex") || "0");
+          moduloId = p.get("moduloId");
+        }
+
+        // recarrega moduloCache baseado no novo moduloId
+        moduloCache =
+          cursoCache?.modulos?.find((m) => m.id === moduloId) || null;
+
+        await renderizarAulaAtual();
+      });
+
+      // boot
+      (async function init() {
+        try {
+          await carregarCursoUmaVez();
+          aplicarTemaDoCurso(cursoCache);
+          // deixa o estado inicial registrado sem “empilhar” histórico
+          history.replaceState({ aulaIndex }, "", window.location.href);
+          await renderizarAulaAtual();
+          configurarSwipeBordas();
+        } catch (error) {
+          console.error("❌ Erro ao carregar conteúdo local:", error);
+          document.getElementById("conteudo-render").innerHTML =
+            '<p style="text-align: center; padding: 50px;">Erro ao carregar conteúdo.</p>';
+        }
+      })();
+    </script>
+    <div id="swipe-edge-left" aria-hidden="true"></div>
+    <div id="swipe-edge-right" aria-hidden="true"></div>
+    <div id="bg-overlay" aria-hidden="true"></div>
+  </body>
+</html>

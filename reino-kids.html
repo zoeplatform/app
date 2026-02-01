@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reino Kids</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Plataforma de discipulado, escola bíblica e conteúdo cristão do Ministério Zoe Maringá">
+    <meta name="theme-color" content="#4E6813">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Zoe">
+    
+    <!-- PWA Icons -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/icons/icon-512x512.png">
+    <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+    
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/reino-kids.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="kids-page">
+    <!-- Menu Lateral -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>Menu</h3>
+            <button class="sidebar-close"><i class="fas fa-times"></i></button>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="home.html" data-page="home"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="escola.html" data-page="escola"><i class="fas fa-book"></i> Escola Zoe</a></li>
+            <li><a href="reino-kids.html" data-page="reino-kids"><i class="fas fa-child"></i> Reino Kids</a></li>
+            <li><a href="#" data-page="cultos"><i class="fas fa-music"></i> Cultos</a></li>
+            <li><a href="#" data-page="celulas"><i class="fas fa-users"></i> Células</a></li>
+            <li id="menu-admin-item" style="display: none;"><a href="admin.html" data-page="admin"><i class="fas fa-shield-alt"></i> Administração</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <button id="btn-logout"><i class="fas fa-sign-out-alt"></i> Sair</button>
+        </div>
+    </aside>
+
+    <div class="overlay" id="overlay"></div>
+
+    <header>
+        <button class="menu-btn"><i class="fas fa-bars"></i></button>
+        <img src="assets/images/zoe-logo.svg" alt="Zoe" class="nav-logo">
+        <div style="width: 24px;"></div>
+    </header>
+
+    <main>
+        <section class="reino-header">
+            <h1>🎨 Reino Kids</h1>
+            <p>Discipulado Infantil - Atividades e Manuais para Pais</p>
+        </section>
+
+        <!-- Atividades -->
+        <h2 class="categoria-title"><i class="fas fa-puzzle-piece"></i> Atividades</h2>
+        <div class="materiais-container">
+            <div class="material-card">
+                <div class="material-header">
+                    <div class="material-icon"><i class="fas fa-pencil-alt"></i></div>
+                    <div class="material-info">
+                        <h3>Colorir e Aprender</h3>
+                        <p>Atividades de pintura com lições bíblicas</p>
+                    </div>
+                </div>
+                <div class="material-body">
+                    <p class="material-desc">Série completa de atividades de colorir com histórias bíblicas para crianças de 3 a 7 anos.</p>
+                    <div class="material-meta">
+                        <span class="meta-tag"><i class="fas fa-users"></i> 3-7 anos</span>
+                        <span class="meta-tag"><i class="fas fa-file-pdf"></i> PDF</span>
+                        <span class="meta-tag"><i class="fas fa-download"></i> 12 páginas</span>
+                    </div>
+                    <button class="btn-download" onclick="baixarMaterial('colorir-aprender.pdf')">
+                        <i class="fas fa-download"></i> Baixar Atividade
+                    </button>
+                </div>
+            </div>
+
+            <div class="material-card">
+                <div class="material-header">
+                    <div class="material-icon"><i class="fas fa-gamepad"></i></div>
+                    <div class="material-info">
+                        <h3>Jogos Bíblicos</h3>
+                        <p>Passatempos e desafios educativos</p>
+                    </div>
+                </div>
+                <div class="material-body">
+                    <p class="material-desc">Caça-palavras, labirintos e quebra-cabeças com temas bíblicos para reforçar aprendizado.</p>
+                    <div class="material-meta">
+                        <span class="meta-tag"><i class="fas fa-users"></i> 5-10 anos</span>
+                        <span class="meta-tag"><i class="fas fa-file-pdf"></i> PDF</span>
+                        <span class="meta-tag"><i class="fas fa-download"></i> 20 páginas</span>
+                    </div>
+                    <button class="btn-download" onclick="baixarMaterial('jogos-biblicos.pdf')">
+                        <i class="fas fa-download"></i> Baixar Atividade
+                    </button>
+                </div>
+            </div>
+
+            <div class="material-card">
+                <div class="material-header">
+                    <div class="material-icon"><i class="fas fa-cut"></i></div>
+                    <div class="material-info">
+                        <h3>Artesanato Criativo</h3>
+                        <p>Projetos DIY com mensagem cristã</p>
+                    </div>
+                </div>
+                <div class="material-body">
+                    <p class="material-desc">Ideias de artesanato simples para fazer em casa, reforçando valores cristãos através da criatividade.</p>
+                    <div class="material-meta">
+                        <span class="meta-tag"><i class="fas fa-users"></i> 4-12 anos</span>
+                        <span class="meta-tag"><i class="fas fa-file-pdf"></i> PDF</span>
+                        <span class="meta-tag"><i class="fas fa-download"></i> 15 páginas</span>
+                    </div>
+                    <button class="btn-download" onclick="baixarMaterial('artesanato-criativo.pdf')">
+                        <i class="fas fa-download"></i> Baixar Atividade
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Manuais para Pais -->
+        <h2 class="categoria-title"><i class="fas fa-book"></i> Manuais para Pais</h2>
+        <div class="materiais-container">
+            <div class="material-card">
+                <div class="material-header">
+                    <div class="material-icon"><i class="fas fa-heart"></i></div>
+                    <div class="material-info">
+                        <h3>Guia de Discipulado Infantil</h3>
+                        <p>Como discipular seus filhos em casa</p>
+                    </div>
+                </div>
+                <div class="material-body">
+                    <p class="material-desc">Manual prático com estratégias, roteiros de conversas e dicas para pais que desejam discipular seus filhos.</p>
+                    <div class="material-meta">
+                        <span class="meta-tag"><i class="fas fa-users"></i> Pais</span>
+                        <span class="meta-tag"><i class="fas fa-file-pdf"></i> PDF</span>
+                        <span class="meta-tag"><i class="fas fa-download"></i> 40 páginas</span>
+                    </div>
+                    <button class="btn-download" onclick="baixarMaterial('guia-discipulado.pdf')">
+                        <i class="fas fa-download"></i> Baixar Manual
+                    </button>
+                </div>
+            </div>
+
+            <div class="material-card">
+                <div class="material-header">
+                    <div class="material-icon"><i class="fas fa-bible"></i></div>
+                    <div class="material-info">
+                        <h3>Histórias Bíblicas Adaptadas</h3>
+                        <p>Narrativas simplificadas para crianças</p>
+                    </div>
+                </div>
+                <div class="material-body">
+                    <p class="material-desc">50 histórias bíblicas reescritas de forma lúdica e compreensível para crianças pequenas.</p>
+                    <div class="material-meta">
+                        <span class="meta-tag"><i class="fas fa-users"></i> 3-8 anos</span>
+                        <span class="meta-tag"><i class="fas fa-file-pdf"></i> PDF</span>
+                        <span class="meta-tag"><i class="fas fa-download"></i> 60 páginas</span>
+                    </div>
+                    <button class="btn-download" onclick="baixarMaterial('historias-biblicas.pdf')">
+                        <i class="fas fa-download"></i> Baixar Manual
+                    </button>
+                </div>
+            </div>
+
+            <div class="material-card">
+                <div class="material-header">
+                    <div class="material-icon"><i class="fas fa-comments"></i></div>
+                    <div class="material-info">
+                        <h3>Conversas Importantes</h3>
+                        <p>Tópicos sensíveis explicados aos filhos</p>
+                    </div>
+                </div>
+                <div class="material-body">
+                    <p class="material-desc">Guia para abordar temas como morte, medo, amizade e valores cristãos com as crianças.</p>
+                    <div class="material-meta">
+                        <span class="meta-tag"><i class="fas fa-users"></i> Pais</span>
+                        <span class="meta-tag"><i class="fas fa-file-pdf"></i> PDF</span>
+                        <span class="meta-tag"><i class="fas fa-download"></i> 35 páginas</span>
+                    </div>
+                    <button class="btn-download" onclick="baixarMaterial('conversas-importantes.pdf')">
+                        <i class="fas fa-download"></i> Baixar Manual
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer style="padding: 40px 24px; text-align: center; color: var(--kids-text-secondary); font-size: 0.8rem;">
+        <p>&copy; 2026 Ministério Zoe Maringá</p>
+    </footer>
+
+    <script type="module">
+        import { auth, onAuthStateChanged, signOut, db, doc, getDoc } from './js/firebase-init.js';
+        import { inicializarMenu, setMenuAtivo } from './js/menu.js';
+
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = 'login.html';
+            } else {
+                // Verificar se o usuário é admin
+                const userDoc = await getDoc(doc(db, 'usuarios', user.uid));
+                if (userDoc.exists() && userDoc.data().role === 'admin') {
+                    document.getElementById('menu-admin-item').style.display = 'block';
+                }
+            }
+        });
+
+        document.getElementById('btn-logout').addEventListener('click', async () => {
+            await signOut(auth);
+            window.location.href = 'login.html';
+        });
+
+        window.baixarMaterial = function(arquivo) {
+            const link = document.createElement('a');
+            link.href = `assets/materiais/${arquivo}`;
+            link.download = arquivo;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            alert(`Download iniciado: ${arquivo}\n\nEm produção, este arquivo seria armazenado em um servidor ou cloud storage.`);
+        };
+
+        inicializarMenu();
+        setMenuAtivo('reino-kids');
+    </script>
+</body>
+</html>

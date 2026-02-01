@@ -1,0 +1,14 @@
+{
+  "catalogo": [
+    
+      {
+      "id": "apocalipse-revelado",
+      "titulo": "Apocalipse Revelado",
+      "descricao": "Da Revelação à Consumação",
+      "imagem": "assets/cursos/Apoalipse.jpg",
+      "dataFile": "data/cursos_db/apocalipse-revelado.json"
+    }
+   
+  
+  ]
+}
